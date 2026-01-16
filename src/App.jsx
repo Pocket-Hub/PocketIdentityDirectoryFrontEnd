@@ -9,16 +9,18 @@ function App() {
 
   return (
     <>
-    <header>
-      <h1>Pocket Identity Directory</h1>
-    </header>
-    <hr />
-    <button onClick={() => setAreGroupsVisible(false)}>Users</button>
-    <button onClick={() => setAreGroupsVisible(true)}>Groups</button>
+      <header>
+        <h1>Pocket Identity Directory</h1>
+      </header>
+      <hr />
+      <div style={{textAlign: "left", width: "90%", margin: "auto"}}>
+        <button onClick={() => setAreGroupsVisible(false)}>Users</button>
+        <button onClick={() => setAreGroupsVisible(true)}>Groups</button>
       {areGroupsVisible ?
         <GroupsTable></GroupsTable> :
         <UsersTable></UsersTable>
       }
+      </div>
     </>
   )
 }

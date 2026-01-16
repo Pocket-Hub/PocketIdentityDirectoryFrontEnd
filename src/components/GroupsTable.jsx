@@ -56,6 +56,7 @@ function GroupsTable(){
             <td>{group.displayName}</td>
             <td>{group.name}</td>
             <td>{group.description}</td>
+            <td><p>{">"}</p></td>
           </tr>
         ))}
       </tbody>

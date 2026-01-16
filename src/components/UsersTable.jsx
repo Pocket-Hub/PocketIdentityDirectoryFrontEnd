@@ -56,6 +56,7 @@ function UsersTable(){
             <td>{user.name.lastName}</td>
             <td>{user.email}</td>
             <td>{user.loginName}</td>
+            <td><p>{">"}</p></td>
           </tr>
         ))}
       </tbody>

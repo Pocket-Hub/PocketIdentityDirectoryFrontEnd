@@ -1,13 +1,22 @@
 
-table, td {
-    border: 1px solid;
+table, tr {
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-collapse: collapse;
 }
+tr{
+    max-height: 70px;
+}
+tbody > tr:hover{
+    background-color: rgb(123, 123, 123);
+    cursor: pointer;
+}
 table {
-    width: 90%;
+    width: 100%;
     margin: auto;
 }
 
-td{
+td > p{
+    margin-right: 5px;
 }
+
 
