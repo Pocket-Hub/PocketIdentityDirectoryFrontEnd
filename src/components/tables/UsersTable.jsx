@@ -8,8 +8,10 @@ function UsersTable() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [iasUser, setIasUser] = useState(null);
+  const [reload, setReload] = useState(0);
 
   useEffect(() => {
+    setLoading(true);
     async function getUsers() {
       try {
         let res = await fetch("http://localhost:8080/api/v1/users");
@@ -26,7 +28,7 @@ function UsersTable() {
     }
     getUsers();
 
-  }, [])
+  }, [reload])
   
 
 
@@ -40,6 +42,7 @@ function UsersTable() {
 
   function close(){
     setIasUser(null);
+    setReload(r => r + 1);
   }
 
   return (
