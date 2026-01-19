@@ -26,8 +26,7 @@ function UserModal({ user, onClose, onDelete, setUser }) {
                 <div className="modal">
                     {areGroupsVisible ?
                         <div>
-                            
-                            <ModalGroupTable closeModal={onClose} updateUser={setUser} userId={user.id} groups={user.groups}></ModalGroupTable>
+                            <ModalGroupTable groups={user.groups} closeModal={onClose} userId={user.id}></ModalGroupTable>
                         </div>
                         :
                         <div style={{ display: 'flex' }}>
@@ -52,11 +51,11 @@ function UserModal({ user, onClose, onDelete, setUser }) {
                                     <h2 style={{ marginBottom: "0px", marginTop: "0px" }}>Company Info</h2>
                                     <div className="modal-content">
                                         <label><strong>Company:</strong></label>
-                                        <p>{user.companyInfo.company}</p>
+                                        <p>{user.companyInfo?.company ?? "none"}</p>
                                         <label><strong>Country:</strong></label>
-                                        <p>{user.companyInfo.country}</p>
+                                        <p>{user.companyInfo?.country ?? "none"}</p>
                                         <label><strong>City:</strong></label>
-                                        <p>{user.companyInfo.city}</p>
+                                        <p>{user.companyInfo?.city ?? "none"}</p>
                                     </div>
                                     <hr />
                                     <h2 style={{ marginBottom: "0px", marginTop: "0px" }}>Meta</h2>

@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { GroupsContext, UsersContext } from "../../App";
 
-function ModalGroupTable({ closeModal, updateUser, userId, groups }) {
-    const [grps, setGrps] = useState(groups);
+function ModalGroupTable({ groups, updateUser, userId }) {
     const [selectedItems, setSelectedItems] = useState([]);
+    const {users, setUsers} = useContext(UsersContext);
+
+    function updateUser(user){
+        setUsers(prev => prev.map(prevUser => 
+            prevUser.id === user.id? user : prevUser
+        ));
+    }
 
     async function unassignGroups(){
         const res = await fetch(`http://localhost:8080/api/v1/users/${userId}`, {
@@ -14,12 +21,12 @@ function ModalGroupTable({ closeModal, updateUser, userId, groups }) {
                 action: "remove",
                 groups: selectedItems
             })
-        })
+        });
         let resUser = await res.json();
         updateUser(resUser);
-        setGrps(resUser.groups)
         setSelectedItems([]);
-    }
+    };
+
     
 
     function handleCheckBoxChange(e) {
@@ -45,7 +52,8 @@ function ModalGroupTable({ closeModal, updateUser, userId, groups }) {
         <div>
             <div style={{ display: 'flex' }}>
                 <h2 style={{ marginBottom: "0px", marginTop: "0px" }}>Groups</h2>
-                <button style={{ marginLeft: 'auto' }} onClick={unassignGroups}>Unassign</button>
+                <button className="modal-button" style={{ marginLeft: 'auto' }} onClick={unassignGroups}>Assign</button>
+                <button className="modal-button" style={{marginLeft: '10px'}} onClick={unassignGroups}>Unassign</button>
             </div>
             <table>
                 <thead>
@@ -63,7 +71,7 @@ function ModalGroupTable({ closeModal, updateUser, userId, groups }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {grps.map(group => (
+                    {groups.map(group => (
                         <tr key={group.id}>
                             <td>
                                 <input
