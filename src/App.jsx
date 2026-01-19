@@ -6,7 +6,6 @@ import GroupsTable from './components/tables/GroupsTable';
 function App() {
   const [areGroupsVisible, setAreGroupsVisible] = useState(false);
 
-
   return (
     <>
       <header>
@@ -14,8 +13,8 @@ function App() {
       </header>
       <hr />
       <div style={{textAlign: "left", width: "90%", margin: "auto"}}>
-        <button style={{backgroundColor: areGroupsVisible? '#1a1a1a' : 'rgb(123, 123, 123)'}} onClick={() => setAreGroupsVisible(false)}>Users</button>
-        <button style={{backgroundColor: areGroupsVisible? 'rgb(123, 123, 123)' : '#1a1a1a'}} onClick={() => setAreGroupsVisible(true)}>Groups</button>
+        <button style={{border: areGroupsVisible? '#1a1a1a' : 'solid 2px'}} onClick={() => setAreGroupsVisible(false)}>Users</button>
+        <button style={{border: areGroupsVisible? 'solid 2px' : '#1a1a1a'}} onClick={() => setAreGroupsVisible(true)}>Groups</button>
       {areGroupsVisible ?
         <GroupsTable></GroupsTable> :
         <UsersTable></UsersTable>

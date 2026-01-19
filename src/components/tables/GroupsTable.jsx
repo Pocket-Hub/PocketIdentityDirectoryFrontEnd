@@ -38,7 +38,6 @@ function GroupsTable() {
 
   return (
     <div>
-
       {loading && <Loading></Loading>}
       <table>
         <thead>

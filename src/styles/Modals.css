@@ -12,12 +12,13 @@
 
 .modal {
     background-color: #242424;
-    min-height: 50vh;
-    min-width: 40vw;
+    height: 60vh;
+    width: 40vw;
     padding: 20px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
+    border-top-left-radius: 0;
 
 }
 
@@ -27,7 +28,10 @@
 }
 
 .modal-actions {
+    display: flex;
+    gap: 10px;
     margin-top: auto;
+    
 }
 
 p {

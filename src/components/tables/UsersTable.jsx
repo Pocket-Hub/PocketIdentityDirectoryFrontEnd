@@ -29,15 +29,11 @@ function UsersTable() {
     getUsers();
 
   }, [reload])
-  
 
-
-  if (error) {
-    return (
-      <><h1>Sorry, something went wrong :-/</h1>
-        <h2>Try to refresh</h2>
-      </>
-    );
+  function updateUser(user){
+    setUsers(prevUsers => prevUsers.map(prev => prev.id === user.id ?
+      user : prev
+    ))
   }
 
   function close(){
@@ -46,6 +42,14 @@ function UsersTable() {
 
   function deleteIasUser(id){
     setUsers(prevUsers => prevUsers.filter(u => u.id !== id))
+  }
+
+   if (error) {
+    return (
+      <><h1>Sorry, something went wrong :-/</h1>
+        <h2>Try to refresh</h2>
+      </>
+    );
   }
 
   return (
@@ -73,7 +77,7 @@ function UsersTable() {
         ))}
       </tbody>
     </table>
-    <UserModal user={iasUser} onClose={close} onDelete={deleteIasUser}></UserModal>
+    <UserModal user={iasUser} onClose={close} onDelete={deleteIasUser} setUser={updateUser}></UserModal>
     </div>
   );
 }
