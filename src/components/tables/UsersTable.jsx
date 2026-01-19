@@ -42,7 +42,10 @@ function UsersTable() {
 
   function close(){
     setIasUser(null);
-    setReload(r => r + 1);
+  }
+
+  function deleteIasUser(id){
+    setUsers(prevUsers => prevUsers.filter(u => u.id !== id))
   }
 
   return (
@@ -70,7 +73,7 @@ function UsersTable() {
         ))}
       </tbody>
     </table>
-    <UserModal user={iasUser} onClose={close}></UserModal>
+    <UserModal user={iasUser} onClose={close} onDelete={deleteIasUser}></UserModal>
     </div>
   );
 }

@@ -16,10 +16,20 @@
     min-width: 40vw;
     padding: 20px;
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
 
 }
 
 .modal-button {
     border-radius: 8px;
     height: auto;
+}
+
+.modal-actions {
+    margin-top: auto;
+}
+
+p {
+    margin-top: 0;
 }
