@@ -33,7 +33,7 @@ function UserModal({ userId, onClose }) {
                         :
                         <UserModalContent user={user}></UserModalContent>
                     }
-                    <div className="modal-actions">
+                    <div className="buttons-div" style={{alignSelf: 'center'}}>
                         <button className="modal-button" onClick={deleteUser}>Delete</button>
                         <button className="modal-button" onClick={onClose}>Close</button>
                     </div>

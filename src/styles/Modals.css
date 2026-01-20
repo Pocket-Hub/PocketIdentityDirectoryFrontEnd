@@ -23,12 +23,12 @@
     width: 40vw;
     padding: 20px;
     border-radius: 8px;
+    border-top-left-radius: 0;
     display: flex;
     flex-direction: column;
 }
 
 .modal-frame {
-    
     overflow-y: auto;
 }
 
@@ -55,6 +55,7 @@ p {
 }
 
 .content-container {
+    align-self: center;
     display: flex;
     flex-direction: row;
     gap: 30px;

@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
 import "../../styles/Tables.css"
-import Loading from '../Loading';
 import { GroupsContext } from '../../App';
 
 
@@ -8,7 +7,7 @@ function GroupsTable() {
   const {groups, setGroups} = useContext(GroupsContext);
 
   return (
-    <div>
+    <div style={{overflowY: 'auto'}}>
       <table>
         <thead>
           <tr>

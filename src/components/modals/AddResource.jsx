@@ -46,7 +46,7 @@ function AddResource({ close }) {
     return (
         <div className="modal-backdrop">
             {loading && <Loading></Loading>}
-            <div className="modal-frame" style={{ justifyContent: "center" }}>
+            <div className="modal-frame" style={{ justifyContent: "center", borderTopLeftRadius: '8px' }}>
                 <div className="content-container">
                     <form className="create-user-form" onSubmit={submitForm}>
                         <div className="content-container">
