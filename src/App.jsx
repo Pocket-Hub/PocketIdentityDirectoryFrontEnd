@@ -3,7 +3,7 @@ import './App.css'
 import UsersTable from './components/tables/UsersTable';
 import GroupsTable from './components/tables/GroupsTable';
 import Loading from './components/Loading';
-import AddResource from './components/modals/contents/AddResource';
+import AddResource from './components/modals/AddResource';
 
 export const UsersContext = createContext({ users: [], setUsers: () => { } });
 export const GroupsContext = createContext({ groups: [], setGroups: () => { } });
