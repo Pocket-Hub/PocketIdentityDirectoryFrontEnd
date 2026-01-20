@@ -5,7 +5,6 @@ import { GroupsContext } from '../../App';
 
 
 function GroupsTable() {
-
   const {groups, setGroups} = useContext(GroupsContext);
 
   return (
@@ -21,7 +20,7 @@ function GroupsTable() {
         </thead>
         <tbody>
           {groups.map(group => (
-            <tr key={group.id}>
+            <tr className='hover-tr' key={group.id}>
               <td>{group.id}</td>
               <td>{group.displayName}</td>
               <td>{group.name}</td>

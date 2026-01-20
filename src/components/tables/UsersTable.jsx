@@ -1,23 +1,19 @@
 import { useContext, useEffect, useState } from 'react'
 import "../../styles/Tables.css"
 import UserModal from '../modals/UserModal';
-import Loading from '../Loading';
 import { UsersContext } from '../../App';
 
 function UsersTable() {
   const {users, setUsers} = useContext(UsersContext);
   const [iasUser, setIasUser] = useState(null);
 
-
   function close() {
     setIasUser(null);
-  }
+  };
 
   function deleteIasUser(id) {
-    setUsers(prevUsers => prevUsers.filter(u => u.id !== id))
-  }
-
-  console.log(users);
+    setUsers(prevUsers => prevUsers.filter(u => u.id !== id));
+  };
 
   return (
     <div>
@@ -33,7 +29,7 @@ function UsersTable() {
         </thead>
         <tbody>
           {users.map(user => (
-            <tr key={user.id} onClick={() => setIasUser(user)}>
+            <tr className='hover-tr' key={user.id} onClick={() => setIasUser(user.id)}>
               <td>{user.id}</td>
               <td>{user.name.firstName}</td>
               <td>{user.name.lastName}</td>
@@ -43,7 +39,7 @@ function UsersTable() {
           ))}
         </tbody>
       </table>
-      <UserModal user={iasUser} onClose={close} onDelete={deleteIasUser}></UserModal>
+      <UserModal userId={iasUser} onClose={close} onDelete={deleteIasUser}></UserModal>
     </div>
   );
 }

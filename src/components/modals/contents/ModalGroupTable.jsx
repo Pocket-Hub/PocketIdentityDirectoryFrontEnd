@@ -1,17 +1,22 @@
 import { useContext, useState } from "react";
-import { GroupsContext, UsersContext } from "../../App";
+import { GroupsContext, UsersContext } from "../../../App";
+import Loading from "../../Loading";
 
-function ModalGroupTable({ groups, updateUser, userId }) {
+function ModalGroupTable({ userId }) {
     const [selectedItems, setSelectedItems] = useState([]);
     const {users, setUsers} = useContext(UsersContext);
+    const [user, setUser] = useState(users.find(u => u.id ===userId));
+    const [loading, setLoading] = useState(false);
 
     function updateUser(user){
         setUsers(prev => prev.map(prevUser => 
             prevUser.id === user.id? user : prevUser
         ));
+        setUser(user);
     }
 
     async function unassignGroups(){
+        setLoading(true);
         const res = await fetch(`http://localhost:8080/api/v1/users/${userId}`, {
             method: 'PATCH',
             headers: {
@@ -25,9 +30,8 @@ function ModalGroupTable({ groups, updateUser, userId }) {
         let resUser = await res.json();
         updateUser(resUser);
         setSelectedItems([]);
+        setLoading(false);
     };
-
-    
 
     function handleCheckBoxChange(e) {
         const value = e.target.value;
@@ -36,30 +40,31 @@ function ModalGroupTable({ groups, updateUser, userId }) {
         } else {
             setSelectedItems(selectedItems.filter(item => item !== value));
         }
-    }
+    };
 
     function handleCheckAllBoxes(e) {
         if (e.target.checked) {
-            setSelectedItems(groups.map(group => group.id.toString()));
+            setSelectedItems(user.groups?.map(group => group.id.toString()));
         } else {
             setSelectedItems([]);
         }
-    }
+    };
 
-    const allSelected = groups.length > 0 && selectedItems.length === groups.length;
+    const allSelected = user.groups?.length > 0 && selectedItems.length === user.groups?.length;
 
     return (
         <div>
+            {loading && <Loading></Loading>}
             <div style={{ display: 'flex' }}>
                 <h2 style={{ marginBottom: "0px", marginTop: "0px" }}>Groups</h2>
-                <button className="modal-button" style={{ marginLeft: 'auto' }} onClick={unassignGroups}>Assign</button>
-                <button className="modal-button" style={{marginLeft: '10px'}} onClick={unassignGroups}>Unassign</button>
+                <button className="modal-button" style={{ marginLeft: 'auto' }}>Assign</button>
+                <button className="modal-button" disabled={selectedItems.length == 0} style={{marginLeft: '10px'}} onClick={unassignGroups}>Unassign</button>
             </div>
             <table>
                 <thead>
                     <tr>
                         <th>
-                            <input
+                            <input className="check-box"
                                 type="checkbox"
                                 checked={allSelected}
                                 onChange={handleCheckAllBoxes}
@@ -71,10 +76,10 @@ function ModalGroupTable({ groups, updateUser, userId }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {groups.map(group => (
+                    {user.groups?.map(group => (
                         <tr key={group.id}>
                             <td>
-                                <input
+                                <input className="check-box"
                                     type="checkbox"
                                     value={group.id}
                                     checked={selectedItems.includes(group.id.toString())}
@@ -91,6 +96,6 @@ function ModalGroupTable({ groups, updateUser, userId }) {
 
         </div>
     );
-}
+};
 
 export default ModalGroupTable;
