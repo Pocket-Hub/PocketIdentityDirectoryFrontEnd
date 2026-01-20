@@ -27,6 +27,11 @@
     flex-direction: column;
 }
 
+.modal-frame {
+    
+    overflow-y: auto;
+}
+
 .modal-button {
     border-radius: 8px;
     height: auto;

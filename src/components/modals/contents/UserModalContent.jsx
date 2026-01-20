@@ -3,7 +3,7 @@ import "../../../styles/Modals.css"
 function UserModalContent({ user }) {
 
     return (
-        <div className="user-info-modal">
+        <div className="content-container">
             <div className="users-info">
                 <h2 style={{ marginBottom: "0px", marginTop: "0px" }}>User Profile</h2>
                 <p style={{ marginTop: "0px", color: "darkgrey" }}>{user.id}</p>
