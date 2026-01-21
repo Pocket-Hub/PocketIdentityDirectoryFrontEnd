@@ -1,4 +1,4 @@
-import "../../../styles/Modals.css"
+import "../../styles/Modals.css"
 
 function UserModalContent({ user }) {
 

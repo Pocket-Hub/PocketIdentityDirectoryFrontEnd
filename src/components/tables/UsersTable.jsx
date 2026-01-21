@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import "../../styles/Tables.css"
-import UserModal from '../modals/UserModal';
+import UserModal from '../users/UserModal';
 import { UsersContext } from '../../App';
 
 function UsersTable() {
@@ -39,7 +39,7 @@ function UsersTable() {
           ))}
         </tbody>
       </table>
-      <UserModal userId={iasUser} onClose={close} onDelete={deleteIasUser}></UserModal>
+      {iasUser && <UserModal userId={iasUser} onClose={close} onDelete={deleteIasUser}></UserModal>}
     </div>
   );
 }

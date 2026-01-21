@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
-import { GroupsContext, UsersContext } from "../../../App";
-import Loading from "../../Loading";
+import { GroupsContext, UsersContext } from "../../App";
+import Loading from "../Loading";
 import AssignGroups from "./AssignGroups";
 
 function ModalGroupTable({ userId }) {

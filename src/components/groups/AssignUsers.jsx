@@ -1,30 +1,30 @@
 import { useContext, useState } from "react";
-import { GroupsContext, UsersContext } from "../../../App";
+import { GroupsContext, UsersContext } from "../../App";
 
-function AssignGroups({ update, userId, close }) {
-    if (!userId) return;
+function AssignUsers({ update, groupId, close }) {
+    if (!groupId) return;
     const [selectedItems, setSelectedItems] = useState([]);
     const { users, setUsers } = useContext(UsersContext);
     const { groups, setGroups } = useContext(GroupsContext);
-    const [user, setUser] = useState(users.find(u => u.id === userId))
-    const userGroups = user?.groups ?? [];
-    const displayGroups = groups.filter(
-        g => !userGroups.some(ug => ug.id === g.id)
+    const [group, setGroup] = useState(groups.find(g => g.id === groupId))
+    const groupMembers = group?.members ?? [];
+    const displayUsers = users.filter(
+        u => !groupMembers.some(gm => gm.id === u.id)
     );
 
     async function assign() {
-        const res = await fetch(`http://localhost:8080/api/v1/users/${userId}`, {
+        const res = await fetch(`http://localhost:8080/api/v1/groups/${groupId}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
                 action: "add",
-                groups: selectedItems
+                users: selectedItems
             })
         });
-        let resUser = await res.json();
-        update(resUser)
+        let resGroup = await res.json();
+        update(resGroup)
         setSelectedItems([]);
         close();
     };
@@ -40,13 +40,13 @@ function AssignGroups({ update, userId, close }) {
 
     function handleCheckAllBoxes(e) {
         if (e.target.checked) {
-            setSelectedItems(displayGroups.map(group => group.id.toString()));
+            setSelectedItems(displayUsers.map(user => user.id.toString()));
         } else {
             setSelectedItems([]);
         }
     };
 
-    const allSelected = displayGroups.length > 0 && selectedItems.length === displayGroups.length;
+    const allSelected = displayUsers.length > 0 && selectedItems.length === displayUsers.length;
 
     return (
         <div className="modal-backdrop" >
@@ -63,24 +63,24 @@ function AssignGroups({ update, userId, close }) {
                                     />
                                 </th>
                                 <th>ID</th>
-                                <th>Display Name</th>
-                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Last Name</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {displayGroups.map(group => (
-                                <tr key={group.id}>
+                            {displayUsers.map(user => (
+                                <tr key={user.id}>
                                     <td>
                                         <input className="check-box"
                                             type="checkbox"
-                                            value={group.id}
-                                            checked={selectedItems.includes(group.id.toString())}
+                                            value={user.id}
+                                            checked={selectedItems.includes(user.id.toString())}
                                             onChange={handleCheckBoxChange}
                                         />
                                     </td>
-                                    <td>{group.id}</td>
-                                    <td>{group.displayName}</td>
-                                    <td>{group.name}</td>
+                                    <td>{user.id}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user.name.lastName}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -96,4 +96,4 @@ function AssignGroups({ update, userId, close }) {
 }
 
 
-export default AssignGroups;
+export default AssignUsers;

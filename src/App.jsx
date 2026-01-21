@@ -60,6 +60,10 @@ function App() {
     await getUsers();
     await getGroups();
   };
+  async function refresh() {
+    await getUsers();
+    await getGroups();
+  }
 
   return (
     <UsersContext.Provider value={{ users, setUsers }}>
@@ -67,13 +71,14 @@ function App() {
         {loading && <Loading></Loading>}
         <header>
           <h1>Pocket Identity Directory</h1>
-          <button onClick={() => sync()}>Refresh</button>
+          <button onClick={() => sync()}>Sync</button>
+          <button onClick={() => refresh()}>Refresh</button>
         </header>
         <hr />
         <div style={{ textAlign: "left", width: "90%", margin: "auto" }}>
           <div style={{ display: 'flex' }}>
-            <button style={{ border: areGroupsVisible ? '#1a1a1a' : 'solid 2px' }} onClick={() => setAreGroupsVisible(false)}>Users</button>
-            <button style={{ border: areGroupsVisible ? 'solid 2px' : '#1a1a1a' }} onClick={() => setAreGroupsVisible(true)}>Groups</button>
+            <button style={{ border: areGroupsVisible ? '#1a1a1a' : 'solid 2px' }} onClick={() => setAreGroupsVisible(false)}>Users({users.length})</button>
+            <button style={{ border: areGroupsVisible ? 'solid 2px' : '#1a1a1a' }} onClick={() => setAreGroupsVisible(true)}>Groups({groups.length})</button>
             <button style={{ marginLeft: 'auto' }} onClick={() => setAddResource(true)}>Add</button>
           </div>
           {areGroupsVisible ?
