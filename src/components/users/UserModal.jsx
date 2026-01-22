@@ -4,13 +4,14 @@ import ModalGroupTable from "./ModalGroupTable";
 import { UsersContext } from "../../App";
 import UserModalContent from "./UserModalContent";
 import Loading from "../Loading";
+import EditUserContent from "./EditUserContent";
 
 function UserModal({ userId, onClose }) {
   const { users, setUsers } = useContext(UsersContext);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [areGroupsVisible, setAreGroupsVisible] = useState(false);
+  const [editUser, setEditUser] = useState(false);
 
   useEffect(() => {
     if (!userId) return;
@@ -66,25 +67,35 @@ function UserModal({ userId, onClose }) {
   if (!user) return null;
 
   return (
-    <div style={{padding: '2%'}}>
+    <div style={{ padding: '2%' }}>
       <header className="modal-header">
-        <h2>{user.name.firstName} {user.name.lastName}</h2>
-        <div style={{marginLeft: 'auto',display: 'flex', gap: '10px'}}>
-        <button className="modal-button" onClick={deleteUser}>
-          Delete
-        </button>
-        <button className="modal-button" onClick={onClose}>
-          Close
-        </button>
+        <h2 style={{ display: 'flex', alignItems: 'center' }}>
+          {user.name.firstName} {user.name.lastName}
+          {editUser ? <button style={{ marginLeft: '5%' }} onClick={() => setEditUser(null)}>Exit</button>
+            :
+            <button style={{ marginLeft: '5%' }} onClick={() => setEditUser(user)}>Edit</button>
+          }
+        </h2>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: '10px' }}>
+          <button className="modal-button" onClick={deleteUser}>
+            Delete
+          </button>
+          <button className="modal-button" onClick={onClose}>
+            Close
+          </button>
         </div>
-        </header>
-      
-      <UserModalContent user={user} />
-      <ModalGroupTable
-        groups={user.groups || []}
-        closeModal={onClose}
-        userId={user.id}
-      />
+      </header>
+      {editUser ? <EditUserContent user={editUser} close={() => setEditUser(null)}/> : <>
+
+        <UserModalContent user={user} />
+        <hr />
+        <ModalGroupTable
+          groups={user.groups || []}
+          closeModal={onClose}
+          userId={user.id}
+        />
+      </>
+      }
     </div>
   );
 }

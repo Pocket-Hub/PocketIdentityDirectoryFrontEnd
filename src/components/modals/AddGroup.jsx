@@ -49,7 +49,7 @@ function AddGroup({ close }) {
                             <h2 style={{ marginBottom: 0, marginTop: 0 }}>Create Group</h2>
                             <label htmlFor="name">
                                 <strong>Name:</strong><br />
-                                <input
+                                <input style={{width: '100%'}}
                                     required
                                     id="name"
                                     type="text"
@@ -59,7 +59,7 @@ function AddGroup({ close }) {
                             </label>
                             <label htmlFor="displayName">
                                 <strong>Display Name:</strong><br />
-                                <input
+                                <input style={{width: '100%'}}
                                     id="displayName"
                                     type="text"
                                     value={displayName}

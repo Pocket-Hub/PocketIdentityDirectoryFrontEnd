@@ -70,6 +70,7 @@ function GroupModal({ groupId, onClose }) {
         </div>
         </header>
           <GroupModalContent group={group} />
+          <hr />
           <ModalUserTable groupId={groupId} />
       </div>
   );

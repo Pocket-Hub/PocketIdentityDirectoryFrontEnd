@@ -1,6 +1,10 @@
 import { useContext, useState } from "react";
 import { UsersContext } from "../../App";
 import Loading from "../Loading";
+import { countryOptions } from "../../data/countryOptions";
+
+
+
 
 function AddUser({ close }) {
     const { users, setUsers } = useContext(UsersContext);
@@ -11,7 +15,6 @@ function AddUser({ close }) {
     const [companyInfo, setCompanyInfo] = useState({ company: "", country: "", city: "" });
     const [validFrom, setValidFrom] = useState("");
     const [validTo, setValidTo] = useState("");
-    const [status, setStatus] = useState("active");
     const [loading, setLoading] = useState(false);
 
 
@@ -26,7 +29,6 @@ function AddUser({ close }) {
             companyInfo,
             validFrom: !validFrom || validFrom.trim() === "" ? null : new Date(validFrom).toISOString(),
             validTo: !validTo || validTo.trim() === "" ? null : new Date(validTo).toISOString(),
-            status
         };
 
         setLoading(true);
@@ -44,7 +46,7 @@ function AddUser({ close }) {
         close();
     }
 
-    if(loading) return(
+    if (loading) return (
         <div className="home-table">
             <Loading></Loading>
         </div>
@@ -96,24 +98,6 @@ function AddUser({ close }) {
                                     onChange={(e) => setLoginName(e.target.value)}
                                 />
                             </label>
-                            <label htmlFor="status">
-                                <strong>Status:</strong><br />
-                                <select
-                                    id="status"
-                                    value={status}
-                                    onChange={(e) => setStatus(e.target.value)}
-                                >
-                                    <option value="active">
-                                        Active
-                                    </option>
-                                    <option value="inactive">
-                                        Inactive
-                                    </option>
-                                    <option value="new">
-                                        New
-                                    </option>
-                                </select>
-                            </label>
                             <label htmlFor="userType">
                                 <strong>User Type:</strong><br />
                                 <select
@@ -140,12 +124,17 @@ function AddUser({ close }) {
                             </label>
                             <label htmlFor="country">
                                 <strong>Country:</strong><br />
-                                <input
+                                <select
                                     id="country"
-                                    type="text"
                                     value={companyInfo.country}
                                     onChange={(e) => setCompanyInfo({ ...companyInfo, country: e.target.value })}
-                                />
+                                >
+                                    {countryOptions.map((country) => (
+                                        <option key={country.value} value={country.value}>
+                                            {country.label}
+                                        </option>
+                                    ))}
+                                </select>
                             </label>
                             <label htmlFor="city">
                                 <strong>City:</strong><br />
