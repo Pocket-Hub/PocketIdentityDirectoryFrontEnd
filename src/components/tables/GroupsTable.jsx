@@ -30,7 +30,7 @@ function GroupsTable() {
           ))}
         </tbody>
       </table>
-      <GroupModal groupId={groupId} onClose={() => setGroupId(null)}></GroupModal>
+      {groupId && <GroupModal groupId={groupId} onClose={() => setGroupId(null)}></GroupModal>}
     </div>
   );
 }

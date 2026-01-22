@@ -57,13 +57,29 @@ function App() {
     const res = await fetch("http://localhost:8080/api/v1/sync", { method: 'POST', headers: { 'Content-Type': 'application/json' } });
     if (!res.ok) setError("Something went wrong!");
     setLoading(false);
-    await getUsers();
-    await getGroups();
+    getUsers();
+    getGroups();
   };
+
   async function refresh() {
     await getUsers();
     await getGroups();
   }
+
+  async function showUsers(){
+    setLoading(true);
+    setAreGroupsVisible(false);
+    await getUsers();
+    setLoading(false);
+  }
+
+  async function showGroups(){
+    setLoading(true);
+    setAreGroupsVisible(true);
+    await getGroups();
+    setLoading(false);
+  }
+
 
   return (
     <UsersContext.Provider value={{ users, setUsers }}>
@@ -77,8 +93,8 @@ function App() {
         <hr />
         <div style={{ textAlign: "left", width: "90%", margin: "auto" }}>
           <div style={{ display: 'flex' }}>
-            <button style={{ border: areGroupsVisible ? '#1a1a1a' : 'solid 2px' }} onClick={() => setAreGroupsVisible(false)}>Users({users.length})</button>
-            <button style={{ border: areGroupsVisible ? 'solid 2px' : '#1a1a1a' }} onClick={() => setAreGroupsVisible(true)}>Groups({groups.length})</button>
+            <button style={{ border: areGroupsVisible ? '#1a1a1a' : 'solid 2px' }} onClick={() => showUsers()}>Users({users.length})</button>
+            <button style={{ border: areGroupsVisible ? 'solid 2px' : '#1a1a1a' }} onClick={() => showGroups()}>Groups({groups.length})</button>
             <button style={{ marginLeft: 'auto' }} onClick={() => setAddResource(true)}>Add</button>
           </div>
           {areGroupsVisible ?

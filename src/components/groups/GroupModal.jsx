@@ -51,14 +51,7 @@ function GroupModal({ groupId, onClose }) {
 
   if (loading) return <Loading />;
 
-  if (error) return (
-    <div className="modal-backdrop">
-      <div className="modal-frame">
-        <p>{error}</p>
-        <button className="modal-button" onClick={onClose}>Close</button>
-      </div>
-    </div>
-  );
+  if (error) return null;
 
   if (!group) return null;
 
