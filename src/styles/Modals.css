@@ -1,5 +1,5 @@
 .modal-backdrop {
-    background-color: rgba(255, 255, 255, 0.192);
+    background-color: rgba(127, 127, 127, 0.192);
     position: fixed;
     bottom: 0;
     right: 0;
@@ -16,6 +16,19 @@
     gap: 10px;
 }
 
+.home-table-div{
+    display: flex;
+    gap: 2%;
+}
+
+.home-table {
+    border-radius: 10px;
+    background-color: #383838;
+    overflow-y: auto;
+    width: 50%;
+    height: 70vh;
+}
+
 .modal-frame,
 .modal {
     background-color: #242424;
@@ -23,7 +36,6 @@
     width: 40vw;
     padding: 20px;
     border-radius: 8px;
-    border-top-left-radius: 0;
     display: flex;
     flex-direction: column;
 }
@@ -34,7 +46,6 @@
 
 .modal-button {
     border-radius: 8px;
-    height: auto;
 }
 
 .modal-actions {
@@ -65,15 +76,6 @@ p {
     gap: 30px;
 }
 
-thead>tr {
-    background-color: #383838;
-    border-bottom: 3px solid #828282;
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 0.85rem;
-    letter-spacing: 0.05em;
-}
-
 .modal-content {
     display: flex;
     flex-direction: column;
@@ -89,11 +91,8 @@ table tbody>tr:nth-child(odd) {
 }
 
 .buttons-div {
-    justify-self: center;
-    text-align: center;
     display: flex;
     gap: 10px;
-    margin-top: auto;
     margin-top: 5px;
 }
 
@@ -109,4 +108,16 @@ label>input {
 
 .users-info {
     word-break: break-all;
+}
+
+.modal-header{
+    display: flex;
+    gap: 10px;
+    max-height: 6vh;
+    margin-bottom: 2vh;
+    position: sticky;
+    top: 0;
+    background-color: #383838;
+    border-bottom: solid #828282;
+    z-index: 5;
 }

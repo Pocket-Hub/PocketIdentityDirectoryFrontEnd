@@ -3,7 +3,7 @@ import './App.css'
 import UsersTable from './components/tables/UsersTable';
 import GroupsTable from './components/tables/GroupsTable';
 import Loading from './components/Loading';
-import AddResource from './components/modals/AddResource';
+import AddUser from './components/modals/AddUser';
 
 export const UsersContext = createContext({ users: [], setUsers: () => { } });
 export const GroupsContext = createContext({ groups: [], setGroups: () => { } });
@@ -15,7 +15,8 @@ function App() {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [addResource, setAddResource] = useState(false);
+  const [addUser, setAddUser] = useState(false);
+  const [addGroup, setAddGroup] = useState(false);
 
   async function getGroups() {
     try {
@@ -29,7 +30,7 @@ function App() {
       setError(err);
       console.log(err);
     }
-  }
+  };
 
   async function getUsers() {
     try {
@@ -45,13 +46,6 @@ function App() {
     };
   };
 
-  useEffect(() => {
-    setLoading(true);
-    getUsers();
-    getGroups();
-    setLoading(false);
-  }, []);
-
   async function sync() {
     setLoading(true);
     const res = await fetch("http://localhost:8080/api/v1/sync", { method: 'POST', headers: { 'Content-Type': 'application/json' } });
@@ -64,49 +58,36 @@ function App() {
   async function refresh() {
     await getUsers();
     await getGroups();
-  }
-
-  async function showUsers(){
-    setLoading(true);
-    setAreGroupsVisible(false);
-    await getUsers();
-    setLoading(false);
-  }
-
-  async function showGroups(){
-    setLoading(true);
-    setAreGroupsVisible(true);
-    await getGroups();
-    setLoading(false);
-  }
-
+  };
 
   return (
     <UsersContext.Provider value={{ users, setUsers }}>
       <GroupsContext.Provider value={{ groups, setGroups }}>
-        {loading && <Loading></Loading>}
-        <header>
+        <header style={{ display: 'flex' }}>
           <h1>Pocket Identity Directory</h1>
-          <button onClick={() => sync()}>Sync</button>
-          <button onClick={() => refresh()}>Refresh</button>
+          <div className='buttons-div' style={{ marginLeft: 'auto', height: '20%' }}>
+            <button className='modal-button' onClick={() => sync()}>Sync</button>
+            <button className='modal-button' onClick={() => refresh()}>Refresh</button>
+          </div>
         </header>
         <hr />
         <div style={{ textAlign: "left", width: "90%", margin: "auto" }}>
-          <div style={{ display: 'flex' }}>
-            <button style={{ border: areGroupsVisible ? '#1a1a1a' : 'solid 2px' }} onClick={() => showUsers()}>Users({users.length})</button>
-            <button style={{ border: areGroupsVisible ? 'solid 2px' : '#1a1a1a' }} onClick={() => showGroups()}>Groups({groups.length})</button>
-            <button style={{ marginLeft: 'auto' }} onClick={() => setAddResource(true)}>Add</button>
+          <div style={{ display: 'flex', gap: '2%' }}>
+            <div style={{width: '50%'}}>
+              <button style={{ marginLeft: 'auto' }} onClick={() => setAddUser(true)}>Add User</button>
+            </div>
+            <div style={{width: '50%'}}>
+              <button style={{ marginLeft: 'auto' }} onClick={() => setAddGroup(true)}>Add Group</button></div>
           </div>
-          {areGroupsVisible ?
-            <GroupsTable></GroupsTable> :
-            <UsersTable></UsersTable>
-          }
-          {addResource && <AddResource close={() => setAddResource(false)}></AddResource>}
-
+          <div className='home-table-div'>
+            <UsersTable getUsers={getUsers}></UsersTable>
+            <GroupsTable getGroups={getGroups}></GroupsTable>
+          </div>
+          {addUser && <AddUser close={() => setAddUser(false)}></AddUser>}
         </div>
       </GroupsContext.Provider>
     </UsersContext.Provider>
-  )
+  );
 }
 
 export default App

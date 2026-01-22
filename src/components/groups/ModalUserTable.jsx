@@ -66,9 +66,10 @@ function ModalUserTable({ groupId }) {
 
     const allSelected = group.members?.length > 0 && selectedItems.length === group.members?.length;
 
+    if (loading) return <Loading></Loading>
+
     return (
-        <div style={{ height: '50%' }}>
-            {loading && <Loading></Loading>}
+        <div style={{ height: '50%', marginTop: '5%' }}>
             {assign && <AssignUsers update={updateGroup} close={() => setAssign(false)} groupId={groupId}></AssignUsers>}
             <div style={{ display: 'flex' }}>
                 <h2 style={{ marginBottom: "0px", marginTop: "0px" }}>Members</h2>
@@ -87,8 +88,8 @@ function ModalUserTable({ groupId }) {
                                 />
                             </th>
                             <th>ID</th>
-                            <th>Display Name</th>
-                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Last Name</th>
                         </tr>
                     </thead>
                     <tbody>

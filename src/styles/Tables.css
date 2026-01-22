@@ -1,22 +1,36 @@
-
-table, tr {
-    border: 1px solid rgba(255, 255, 255, 0.5);
+table,
+tr {
     border-collapse: collapse;
 }
-tr{
+
+tr {
     max-height: 70px;
 }
-tbody > .hover-tr:hover{
+
+tbody>.hover-tr:hover {
     background-color: rgb(123, 123, 123);
     cursor: pointer;
 }
+
 table {
     width: 100%;
     margin: auto;
+    border-collapse: collapse;
 }
 
-td > p{
+td>p {
     margin-right: 5px;
 }
 
+td,
+th {
+    padding: 5px;
+}
 
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: #383838;
+    border-bottom: solid #828282;
+}

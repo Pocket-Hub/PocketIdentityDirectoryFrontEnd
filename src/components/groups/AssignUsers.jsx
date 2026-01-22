@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { GroupsContext, UsersContext } from "../../App";
+import Loading from "../Loading";
 
 function AssignUsers({ update, groupId, close }) {
     if (!groupId) return;
@@ -7,12 +8,14 @@ function AssignUsers({ update, groupId, close }) {
     const { users, setUsers } = useContext(UsersContext);
     const { groups, setGroups } = useContext(GroupsContext);
     const [group, setGroup] = useState(groups.find(g => g.id === groupId))
+    const [loading, setLoading] = useState(false);
     const groupMembers = group?.members ?? [];
     const displayUsers = users.filter(
         u => !groupMembers.some(gm => gm.id === u.id)
     );
 
     async function assign() {
+        setLoading(true);
         const res = await fetch(`http://localhost:8080/api/v1/groups/${groupId}`, {
             method: 'PATCH',
             headers: {
@@ -26,6 +29,7 @@ function AssignUsers({ update, groupId, close }) {
         let resGroup = await res.json();
         update(resGroup)
         setSelectedItems([]);
+        setLoading(false);
         close();
     };
 
@@ -50,7 +54,9 @@ function AssignUsers({ update, groupId, close }) {
 
     return (
         <div className="modal-backdrop" >
-            <div className="modal-frame" style={{ height: '20vh', width: '35vw', borderTopLeftRadius: '8px'}}>
+            <h1>Assign Members</h1>
+            <div className="modal-frame" style={{ height: '40vh', width: '35vw', padding: '0'}}>
+                {loading? <Loading/> : 
                 <div className="content-container" style={{width: '100%'}}>
                     <table style={{width: '100%'}}>
                         <thead>
@@ -85,7 +91,7 @@ function AssignUsers({ update, groupId, close }) {
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </div>}
             </div>
             <div className="buttons-div" style={{marginTop: '5px'}}>
                     <button disabled={selectedItems.length == 0} className="modal-button" onClick={assign}>Assign</button>

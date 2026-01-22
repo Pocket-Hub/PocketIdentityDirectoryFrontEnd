@@ -56,19 +56,21 @@ function GroupModal({ groupId, onClose }) {
   if (!group) return null;
 
   return (
-    <div className="modal-backdrop">
-      <div>
-        <div className="modal-frame" style={{ borderTopLeftRadius: "8px" }}>
+      <div style={{padding: '2%'}}>
+        <header className="modal-header">
+        <h2>{group.displayName}</h2>
+        <div style={{marginLeft: 'auto',display: 'flex', gap: '10px'}}>
+        <button className="modal-button" onClick={deleteGroup}>
+          Delete
+        </button>
+        <button className="modal-button" onClick={onClose}>
+          Close
+        </button>
+        </div>
+        </header>
           <GroupModalContent group={group} />
           <ModalUserTable groupId={groupId} />
-        </div>
-
-        <div className="buttons-div" style={{ alignSelf: "center" }}>
-          <button className="modal-button" onClick={deleteGroup}>Delete</button>
-          <button className="modal-button" onClick={onClose}>Close</button>
-        </div>
       </div>
-    </div>
   );
 }
 

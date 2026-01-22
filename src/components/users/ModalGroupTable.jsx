@@ -54,9 +54,10 @@ function ModalGroupTable({ userId }) {
 
     const allSelected = user.groups?.length > 0 && selectedItems.length === user.groups?.length;
 
+    if (loading) return <Loading/>
+
     return (
-        <div>
-            {loading && <Loading></Loading>}
+        <div style={{marginTop: '5%'}}>
             <AssignGroups update={updateUser} userId={assign} close={() => setAssign(null)}></AssignGroups>
             <div style={{ display: 'flex' }}>
                 <h2 style={{ marginBottom: "0px", marginTop: "0px" }}>Groups</h2>

@@ -2,10 +2,22 @@ import { useContext, useEffect, useState } from 'react'
 import "../../styles/Tables.css"
 import UserModal from '../users/UserModal';
 import { UsersContext } from '../../App';
+import Loading from '../Loading';
 
-function UsersTable() {
+function UsersTable({getUsers}) {
   const {users, setUsers} = useContext(UsersContext);
   const [iasUser, setIasUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  async function refreshUsers(){
+    setLoading(true);
+    await getUsers();
+    setLoading(false);
+    }
+
+  useEffect(() => {
+    refreshUsers();
+  }, [])
 
   function close() {
     setIasUser(null);
@@ -15,14 +27,19 @@ function UsersTable() {
     setUsers(prevUsers => prevUsers.filter(u => u.id !== id));
   };
 
+  if (loading) return(
+    <div className='home-table'>
+      <Loading/>
+    </div>
+  );
+
   return (
-    <div>
+    <div className='home-table'>
+      {iasUser? <UserModal userId={iasUser} onClose={close} onDelete={deleteIasUser}></UserModal>:
       <table>
         <thead>
           <tr>
             <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
             <th>Email</th>
             <th>Login Name</th>
           </tr>
@@ -31,15 +48,12 @@ function UsersTable() {
           {users.map(user => (
             <tr className='hover-tr' key={user.id} onClick={() => setIasUser(user.id)}>
               <td>{user.id}</td>
-              <td>{user.name.firstName}</td>
-              <td>{user.name.lastName}</td>
               <td>{user.email}</td>
               <td>{user.loginName}</td>
             </tr>
           ))}
         </tbody>
-      </table>
-      {iasUser && <UserModal userId={iasUser} onClose={close} onDelete={deleteIasUser}></UserModal>}
+      </table>}
     </div>
   );
 }

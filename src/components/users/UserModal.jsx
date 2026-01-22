@@ -66,44 +66,25 @@ function UserModal({ userId, onClose }) {
   if (!user) return null;
 
   return (
-    <div className="modal-backdrop">
-      <div>
-        <div>
-          <button
-            style={{ fontWeight: !areGroupsVisible ? "bold" : "normal" }}
-            onClick={() => setAreGroupsVisible(false)}
-          >
-            Profile
-          </button>
-          <button
-            style={{ fontWeight: areGroupsVisible ? "bold" : "normal" }}
-            onClick={() => setAreGroupsVisible(true)}
-          >
-            Groups
-          </button>
+    <div style={{padding: '2%'}}>
+      <header className="modal-header">
+        <h2>{user.name.firstName} {user.name.lastName}</h2>
+        <div style={{marginLeft: 'auto',display: 'flex', gap: '10px'}}>
+        <button className="modal-button" onClick={deleteUser}>
+          Delete
+        </button>
+        <button className="modal-button" onClick={onClose}>
+          Close
+        </button>
         </div>
-
-        <div className="modal-frame">
-          {areGroupsVisible ? (
-            <ModalGroupTable
-              groups={user.groups || []}
-              closeModal={onClose}
-              userId={user.id}
-            />
-          ) : (
-            <UserModalContent user={user} />
-          )}
-        </div>
-
-        <div className="buttons-div" style={{ alignSelf: "center" }}>
-          <button className="modal-button" onClick={deleteUser}>
-            Delete
-          </button>
-          <button className="modal-button" onClick={onClose}>
-            Close
-          </button>
-        </div>
-      </div>
+        </header>
+      
+      <UserModalContent user={user} />
+      <ModalGroupTable
+        groups={user.groups || []}
+        closeModal={onClose}
+        userId={user.id}
+      />
     </div>
   );
 }

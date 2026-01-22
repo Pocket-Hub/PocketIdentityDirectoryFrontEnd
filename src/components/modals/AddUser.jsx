@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { UsersContext } from "../../App";
 import Loading from "../Loading";
 
-function AddResource({ close }) {
+function AddUser({ close }) {
     const { users, setUsers } = useContext(UsersContext);
     const [email, setEmail] = useState("");
     const [name, setName] = useState({ firstName: "", lastName: "" });
@@ -46,9 +46,9 @@ function AddResource({ close }) {
     return (
         <div className="modal-backdrop">
             {loading && <Loading></Loading>}
-            <div className="modal-frame" style={{ justifyContent: "center", borderTopLeftRadius: '8px' }}>
-                <div className="content-container">
-                    <form className="create-user-form" onSubmit={submitForm}>
+            <form className="create-user-form" onSubmit={submitForm}>
+                <div className="modal-frame" style={{ justifyContent: "center", borderTopLeftRadius: '8px' }}>
+                    <div className="content-container">
                         <div className="content-container">
                             <div className="modal-content">
                                 <h2 style={{ marginBottom: 0, marginTop: 0 }}>User Profile</h2>
@@ -162,22 +162,21 @@ function AddResource({ close }) {
                                 </label>
                             </div>
                         </div>
-
-                        <div className="buttons-div">
-                            <button className="modal-button" type="submit">
-                                Create
-                            </button>
-                            <button className="modal-button" type="button" onClick={close}>
-                                Close
-                            </button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+                <div className="buttons-div">
+                    <button className="modal-button" type="submit">
+                        Create
+                    </button>
+                    <button className="modal-button" type="button" onClick={close}>
+                        Close
+                    </button>
+                </div>
+            </form>
         </div>
 
     );
 
 }
 
-export default AddResource;
+export default AddUser;

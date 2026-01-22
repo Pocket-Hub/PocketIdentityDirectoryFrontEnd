@@ -1,10 +1,9 @@
-import "../styles/Loading.css"
+import "../styles/Loading.css";
 
-
-function Loading(){
-    return(
-        <h1 className="loading">Loading...</h1>
-    );
+export default function Loading() {
+     return (
+    <div className="loading-overlay">
+      <div className="spinner" />
+    </div>
+  );
 }
-
-export default Loading;
