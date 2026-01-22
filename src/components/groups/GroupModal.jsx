@@ -25,6 +25,7 @@ function GroupModal({ groupId, onClose }) {
       } catch (err) {
         console.error(err);
         setError("Failed to load group.");
+        setGroup(null);
       } finally {
         setLoading(false);
       }

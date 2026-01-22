@@ -34,7 +34,7 @@ function UserModal({ userId, onClose }) {
     }
 
     getUser();
-  }, [userId]);
+  }, [userId, users]);
 
   async function deleteUser() {
     if (!user) return;

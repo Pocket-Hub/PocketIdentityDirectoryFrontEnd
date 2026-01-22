@@ -4,21 +4,24 @@ import UsersTable from './components/tables/UsersTable';
 import GroupsTable from './components/tables/GroupsTable';
 import Loading from './components/Loading';
 import AddUser from './components/modals/AddUser';
+import AddGroup from './components/modals/AddGroup';
 
-export const UsersContext = createContext({ users: [], setUsers: () => { } });
-export const GroupsContext = createContext({ groups: [], setGroups: () => { } });
+export const UsersContext = createContext({ users: [], setUsers: () => { }, getUsers: () => { } });
+export const GroupsContext = createContext({ groups: [], setGroups: () => { }, getGroups: () => { } });
 
 
 function App() {
-  const [areGroupsVisible, setAreGroupsVisible] = useState(false);
   const [users, setUsers] = useState([]);
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [addUser, setAddUser] = useState(false);
   const [addGroup, setAddGroup] = useState(false);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+  const [loadingGroups, setLoadingGroups] = useState(false);
 
   async function getGroups() {
+    setLoadingGroups(true);
     try {
       let res = await fetch("http://localhost:8080/api/v1/groups");
       if (!res.ok) {
@@ -30,9 +33,11 @@ function App() {
       setError(err);
       console.log(err);
     }
+    setLoadingGroups(false);
   };
 
   async function getUsers() {
+    setLoadingUsers(true);
     try {
       let res = await fetch("http://localhost:8080/api/v1/users");
       if (!res.ok) {
@@ -44,25 +49,29 @@ function App() {
       setError(err);
       console.log(err);
     };
+    setLoadingUsers(false);
   };
+
+  useEffect(() => {
+    getUsers();
+    getGroups();
+  }, [])
 
   async function sync() {
     setLoading(true);
     const res = await fetch("http://localhost:8080/api/v1/sync", { method: 'POST', headers: { 'Content-Type': 'application/json' } });
     if (!res.ok) setError("Something went wrong!");
     setLoading(false);
+  };
+
+  async function refresh() {
     getUsers();
     getGroups();
   };
 
-  async function refresh() {
-    await getUsers();
-    await getGroups();
-  };
-
   return (
-    <UsersContext.Provider value={{ users, setUsers }}>
-      <GroupsContext.Provider value={{ groups, setGroups }}>
+    <UsersContext.Provider value={{ users, setUsers, getUsers }}>
+      <GroupsContext.Provider value={{ groups, setGroups, getGroups }}>
         <header style={{ display: 'flex' }}>
           <h1>Pocket Identity Directory</h1>
           <div className='buttons-div' style={{ marginLeft: 'auto', height: '20%' }}>
@@ -71,20 +80,20 @@ function App() {
           </div>
         </header>
         <hr />
-        <div style={{ textAlign: "left", width: "90%", margin: "auto" }}>
-          <div style={{ display: 'flex', gap: '2%' }}>
-            <div style={{width: '50%'}}>
-              <button style={{ marginLeft: 'auto' }} onClick={() => setAddUser(true)}>Add User</button>
+        {loading ? <Loading /> :
+          <div style={{ textAlign: "left", width: "90%", margin: "auto" }}>
+            <div style={{ display: 'flex', gap: '2%', marginBottom: '4px' }}>
+              <div style={{ width: '50%' }}>
+                <button style={{ marginLeft: 'auto' }} onClick={() => setAddUser(true)}>Add User</button>
+              </div>
+              <div style={{ width: '50%' }}>
+                <button style={{ marginLeft: 'auto' }} onClick={() => setAddGroup(true)}>Add Group</button></div>
             </div>
-            <div style={{width: '50%'}}>
-              <button style={{ marginLeft: 'auto' }} onClick={() => setAddGroup(true)}>Add Group</button></div>
-          </div>
-          <div className='home-table-div'>
-            <UsersTable getUsers={getUsers}></UsersTable>
-            <GroupsTable getGroups={getGroups}></GroupsTable>
-          </div>
-          {addUser && <AddUser close={() => setAddUser(false)}></AddUser>}
-        </div>
+            <div className='home-table-div'>
+              {addUser ? <AddUser close={() => setAddUser(false)}></AddUser> : <UsersTable getUsers={getUsers} loading={loadingUsers}></UsersTable>}
+              {addGroup ? <AddGroup close={() => setAddGroup(false)}></AddGroup> : <GroupsTable getGroups={getGroups} loading={loadingGroups}></GroupsTable>}
+            </div>
+          </div>}
       </GroupsContext.Provider>
     </UsersContext.Provider>
   );

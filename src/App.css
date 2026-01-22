@@ -13,6 +13,8 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  box-shadow: 0 4px #2f2f2f;
+  transition: all 0.1s ease-in-out;
 }
 
 header {
@@ -20,4 +22,10 @@ header {
   max-height: 15vh;
   padding: 5px;
 }
+
+button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px #2f2f2f;
+}
+
 

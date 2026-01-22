@@ -5,20 +5,10 @@ import GroupModal from '../groups/GroupModal';
 import Loading from '../Loading';
 
 
-function GroupsTable({getGroups}) {
+function GroupsTable({getGroups, loading}) {
   const [groupId, setGroupId] = useState(null);
   const {groups, setGroups} = useContext(GroupsContext);
-  const [loading, setLoading] = useState(false);
 
-  async function refreshGroups() {
-    setLoading(true);
-    await getGroups();
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    refreshGroups();
-  }, [])
 
   if (loading) return(
     <div className='home-table'>

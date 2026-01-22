@@ -4,20 +4,9 @@ import UserModal from '../users/UserModal';
 import { UsersContext } from '../../App';
 import Loading from '../Loading';
 
-function UsersTable({getUsers}) {
+function UsersTable({getUsers, loading}) {
   const {users, setUsers} = useContext(UsersContext);
   const [iasUser, setIasUser] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  async function refreshUsers(){
-    setLoading(true);
-    await getUsers();
-    setLoading(false);
-    }
-
-  useEffect(() => {
-    refreshUsers();
-  }, [])
 
   function close() {
     setIasUser(null);
