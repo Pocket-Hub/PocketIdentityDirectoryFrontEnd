@@ -55,7 +55,7 @@ function UserModal({ userId, onClose }) {
     setLoading(false);
   }
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading pos={'fixed'} />;
 
   if (error) return (
     <div className="modal-backdrop">
@@ -69,35 +69,37 @@ function UserModal({ userId, onClose }) {
   if (!user) return null;
 
   return (
-    <div style={{ padding: '2%' }}>
-      <header className="modal-header">
-        <h2 style={{ display: 'flex', alignItems: 'center' }}>
-          {user.name.firstName} {user.name.lastName}
-        </h2>
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: '10px' }}>
-          <button className="delete-button" onClick={deleteUser}>
-            Delete
-          </button>
-          {editUser ? <button className="modal-button"  onClick={() => setEditUser(null)}>Exit</button>
-            :
-            <button className="modal-button"  onClick={() => setEditUser(user)}>Edit</button>
-          }
-          <button className="modal-button" onClick={onClose}>
-            Close
-          </button>
-        </div>
-      </header>
-      {editUser ? <EditUserContent user={editUser} close={() => setEditUser(null)}/> : <>
+    <div className="modal-backdrop">
+      <div className="modal-frame">
+          <header className="modal-header">
+            <h2 style={{ display: 'flex', alignItems: 'center' }}>
+              {user.name.firstName} {user.name.lastName}
+            </h2>
+            <div style={{ marginLeft: 'auto', display: 'flex', gap: '10px' }}>
+              <button className="delete-button" onClick={deleteUser}>
+                Delete
+              </button>
+              {editUser ? <button className="modal-button" onClick={() => setEditUser(null)}>Exit</button>
+                :
+                <button className="modal-button" onClick={() => setEditUser(user)}>Edit</button>
+              }
+              <button className="modal-button" onClick={onClose}>
+                Close
+              </button>
+            </div>
+          </header>
+        {editUser ? <EditUserContent user={editUser} close={() => setEditUser(null)} /> : <>
 
-        <UserModalContent user={user} />
-        <hr />
-        <ModalGroupTable
-          groups={user.groups || []}
-          closeModal={onClose}
-          userId={user.id}
-        />
-      </>
-      }
+          <UserModalContent user={user} />
+          <hr />
+          <ModalGroupTable
+            groups={user.groups || []}
+            closeModal={onClose}
+            userId={user.id}
+          />
+        </>
+        }
+      </div>
     </div>
   );
 }

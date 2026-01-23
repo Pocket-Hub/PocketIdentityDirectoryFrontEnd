@@ -22,18 +22,20 @@
 }
 
 .home-table {
-    border: solid #828282;
+    border-bottom: #828282;
     border-radius: 10px;
     overflow-y: auto;
-    width: 50%;
-    height: 70vh;
+    margin: 2rem;
+    min-height: 5rem;
+    box-shadow: 1px 2px 5px grey;
+
 }
 
 .modal-frame,
 .modal {
     background-color: rgb(255, 255, 255);
-    height: 60vh;
-    width: 40vw;
+    height: 40rem;
+    width: 38rem;
     padding: 20px;
     border-radius: 8px;
     display: flex;
@@ -41,7 +43,8 @@
 }
 
 .modal-frame {
-    overflow-y: auto;
+    overflow-y:scroll;
+    justify-content: center;
 }
 
 .modal-button {
@@ -56,7 +59,6 @@
 
 td {
     word-break: break-all;
-    max-width: 20vw;
 }
 
 p {
@@ -71,10 +73,11 @@ p {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    width: 35rem;
 }
 
 .content-container {
-    align-self: center;
+    width: 100%;
     display: flex;
     flex-direction: row;
     gap: 30px;
@@ -90,14 +93,15 @@ p {
 .check-box {
     background-color: white;
     color: white;
+    width: unset;
 }
 
 table tr:nth-child(even) {
-    background-color: #d8d7d7;
+    background-color: #ffffff;
 }
 
 table tbody>tr:nth-child(odd) {
-    background-color: #ffffff;
+    background-color: #d8d7d7;
 }
 
 .buttons-div {
@@ -139,6 +143,7 @@ select {
     box-sizing: border-box;
 }
 
+
 textarea {
     border: 1px solid #c6c6c6;
     color: black;
@@ -146,7 +151,7 @@ textarea {
     width: 100%;
     min-height: 150px;
     resize: vertical;
-    padding: 10px;
+    padding: 0.5rem 0.75rem;
     font-size: 16px;
     overflow-y: auto;
     resize: none;
@@ -162,7 +167,6 @@ textarea {
     display: flex;
     gap: 10px;
     max-height: 6vh;
-    margin-bottom: 2vh;
     position: sticky;
     top: 0;
     background-color: #eeeeee;
@@ -174,4 +178,36 @@ textarea {
 .inactive {
     pointer-events: none;
     background-color: #eee;
+}
+
+.tile {
+    color: black;
+    height: 11rem;
+    width: 11rem;
+    background-color: rgb(228, 228, 228);
+    border-radius: 8px;
+    border: 1px solid rgba(101, 101, 101, 0.379);
+    box-shadow: 0 4px 4px grey;
+    padding: 1vw;
+    margin: 1rem;
+    text-align: center;
+}
+
+.tile:hover {
+    color: black;
+    background-color: rgb(196, 196, 196);
+}
+
+.tile-div {
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.tile-div>img {
+    margin: auto;
+    height: 4rem;
+    width: 4rem;
 }

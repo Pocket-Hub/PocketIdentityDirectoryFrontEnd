@@ -20,9 +20,6 @@ function GroupModalContent({ group }) {
                 <label><strong>Description:</strong></label>
                 <p>{group.description}</p>
             </div>
-            <div className="users-info">
-
-            </div>
         </div>
 
     );

@@ -42,9 +42,9 @@ function AddGroup({ close }) {
 
     return (
 
-        <div className="home-table">
+        <div className="modal-backdrop">
             <form className="create-user-form" onSubmit={submitForm}>
-                <div className="content-container" style={{ width: '80%' }}>
+                <div className="modal-frame" style={{ width: '80%' }}>
                     <div className="modal-content" style={{ width: '100%' }}>
                         <h2 style={{ marginBottom: 0, marginTop: 0, alignSelf: 'center' }}>Create Group</h2>
                         <label htmlFor="name">

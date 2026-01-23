@@ -1,13 +1,14 @@
 import { createContext, useEffect, useState } from 'react'
 import './App.css'
-import UsersTable from './components/tables/UsersTable';
-import GroupsTable from './components/tables/GroupsTable';
-import Loading from './components/Loading';
-import AddUser from './components/modals/AddUser';
-import AddGroup from './components/modals/AddGroup';
+import './styles/Modals.css'
+import './styles/Tables.css'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import HomePage from './pages/HomePage';
+import UsersPage from './pages/UsersPage';
+import GroupsPage from './pages/GroupsPage'
 
-export const UsersContext = createContext({ users: [], setUsers: () => { }, getUsers: () => { } });
-export const GroupsContext = createContext({ groups: [], setGroups: () => { }, getGroups: () => { } });
+export const UsersContext = createContext({ users: [], setUsers: () => { }});
+export const GroupsContext = createContext({ groups: [], setGroups: () => { }});
 
 
 function App() {
@@ -51,12 +52,7 @@ function App() {
     };
     setLoadingUsers(false);
   };
-
-  useEffect(() => {
-    getUsers();
-    getGroups();
-  }, [])
-
+  
   async function sync() {
     setLoading(true);
     const res = await fetch("http://localhost:8080/api/v1/sync", { method: 'POST', headers: { 'Content-Type': 'application/json' } });
@@ -71,33 +67,25 @@ function App() {
   };
 
   return (
-    <UsersContext.Provider value={{ users, setUsers, getUsers }}>
-      <GroupsContext.Provider value={{ groups, setGroups, getGroups }}>
-        <header style={{ display: 'flex' }}>
-          <img src='src/assets/PocketFavIcon.png' style={{width: '36px', height: '48px'}}></img>
-          <h3 style={{marginLeft: '8px'}}>Pocket Identity Directory</h3>
-          {/* <div className='buttons-div' style={{ marginLeft: 'auto', height: '20%' }}>
-            <button className='modal-button' onClick={() => sync()}>Sync</button>
-            <button className='modal-button' onClick={() => refresh()}>Refresh</button>
-          </div> */}
-        </header>
-        <hr />
-        {loading ? <Loading /> :
-          <div style={{ textAlign: "left", width: "90%", margin: "auto" }}>
-            <div style={{ display: 'flex', gap: '2%', marginBottom: '4px' }}>
-              <div style={{ width: '50%' }}>
-                <button style={{ marginLeft: 'auto' }} onClick={() => setAddUser(true)}>Add User</button>
-              </div>
-              <div style={{ width: '50%' }}>
-                <button style={{ marginLeft: 'auto' }} onClick={() => setAddGroup(true)}>Add Group</button></div>
-            </div>
-            <div className='home-table-div'>
-              {addUser ? <AddUser close={() => setAddUser(false)}></AddUser> : <UsersTable getUsers={getUsers} loading={loadingUsers}></UsersTable>}
-              {addGroup ? <AddGroup close={() => setAddGroup(false)}></AddGroup> : <GroupsTable getGroups={getGroups} loading={loadingGroups}></GroupsTable>}
-            </div>
-          </div>}
-      </GroupsContext.Provider>
-    </UsersContext.Provider>
+    <BrowserRouter>
+      <UsersContext.Provider value={{ users, setUsers, getUsers }}>
+        <GroupsContext.Provider value={{ groups, setGroups, getGroups }}>
+          <header style={{ display: 'flex' }}>
+            <Link to="/" c><img src='src/assets/PocketFavIcon.png' style={{ width: '36px', height: '48px' }}></img></Link>
+            <h3 style={{ marginLeft: '8px' }}>Pocket Identity Directory</h3>
+          </header>
+          <hr />
+
+
+          <Routes>
+            <Route path='/' element={<HomePage/>}></Route>
+            <Route path='/Users' element={<UsersPage/>}></Route>
+            <Route path='/Groups' element={<GroupsPage/>}></Route>
+          </Routes>
+
+        </GroupsContext.Provider>
+      </UsersContext.Provider>
+    </BrowserRouter>
   );
 }
 
