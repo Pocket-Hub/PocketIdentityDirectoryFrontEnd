@@ -39,6 +39,7 @@ function UserModal({ userId, onClose }) {
 
   async function deleteUser() {
     if (!user) return;
+    setLoading(true);
 
     try {
       const res = await fetch(`http://localhost:8080/api/v1/users/${user.id}`, {
@@ -51,6 +52,7 @@ function UserModal({ userId, onClose }) {
       console.error(err);
       alert("Failed to delete user.");
     }
+    setLoading(false);
   }
 
   if (loading) return <Loading />;

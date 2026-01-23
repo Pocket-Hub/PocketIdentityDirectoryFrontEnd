@@ -36,7 +36,7 @@ function GroupModal({ groupId, onClose }) {
 
   async function deleteGroup() {
     if (!group) return;
-
+    setLoading(true);
     try {
       const res = await fetch(`http://localhost:8080/api/v1/groups/${groupId}`, {
         method: "DELETE",
@@ -48,6 +48,7 @@ function GroupModal({ groupId, onClose }) {
       console.error(err);
       alert("Failed to delete group.");
     }
+    setLoading(false);
   }
 
   if (loading) return <Loading />;

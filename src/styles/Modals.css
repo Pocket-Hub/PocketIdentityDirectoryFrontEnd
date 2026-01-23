@@ -1,5 +1,5 @@
 .modal-backdrop {
-    background-color: rgba(127, 127, 127, 0.192);
+    background-color: rgba(160, 160, 160, 0.678);
     position: fixed;
     bottom: 0;
     right: 0;
@@ -22,8 +22,8 @@
 }
 
 .home-table {
+    border: solid black;
     border-radius: 10px;
-    background-color: #383838;
     overflow-y: auto;
     width: 50%;
     height: 70vh;
@@ -31,7 +31,7 @@
 
 .modal-frame,
 .modal {
-    background-color: #242424;
+    background-color: rgb(255, 255, 255);
     height: 60vh;
     width: 40vw;
     padding: 20px;
@@ -87,12 +87,17 @@ p {
     width: 50%;
 }
 
+.check-box{
+    background-color: white;
+    color: white;
+}
+
 table tr:nth-child(even) {
-    background-color: #383838;
+    background-color: #d8d7d7;
 }
 
 table tbody>tr:nth-child(odd) {
-    background-color: #272727;
+    background-color: #ffffff;
 }
 
 .buttons-div {
@@ -105,12 +110,24 @@ h2 {
     width: 15vw;
 }
 
+label > span {
+    font-weight: bold;
+}
+
+label:has(input:required) .label-text::after {
+  content: " *";
+  color: red;
+}
+
+
 input,
 select {
+    color: black;
+    background: transparent;
     width: 80%;
     padding: 0.5rem 0.75rem;
     font-size: 1rem;
-    border: 1px solid #ccc;
+    border: 2px solid #c6c6c6;
     border-radius: 0.375rem;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -118,7 +135,9 @@ select {
 }
 
 textarea {
-    border: 1px solid #ccc;
+    border: 1px solid #c6c6c6;
+    color: black;
+    background: transparent;
     width: 100%;
     min-height: 150px;
     resize: vertical;
@@ -141,7 +160,7 @@ textarea {
     margin-bottom: 2vh;
     position: sticky;
     top: 0;
-    background-color: #262626;
+    background-color: #eeeeee;
     border-bottom: solid #828282;
     z-index: 5;
     border-radius: 8px;

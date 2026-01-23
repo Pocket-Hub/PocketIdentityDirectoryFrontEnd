@@ -33,51 +33,51 @@ function AddGroup({ close }) {
         setLoading(false);
         close();
     }
-    
-     if(loading) return(
-            <div className="home-table">
-                <Loading></Loading>
-            </div>
-        );
+
+    if (loading) return (
+        <div className="home-table">
+            <Loading></Loading>
+        </div>
+    );
 
     return (
 
         <div className="home-table">
             <form className="create-user-form" onSubmit={submitForm}>
-                    <div className="content-container" style={{ width: '80%' }}>
-                        <div className="modal-content" style={{ width: '100%' }}>
-                            <h2 style={{ marginBottom: 0, marginTop: 0 }}>Create Group</h2>
-                            <label htmlFor="name">
-                                <strong>Name:</strong><br />
-                                <input style={{width: '100%'}}
-                                    required
-                                    id="name"
-                                    type="text"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                />
-                            </label>
-                            <label htmlFor="displayName">
-                                <strong>Display Name:</strong><br />
-                                <input style={{width: '100%'}}
-                                    id="displayName"
-                                    type="text"
-                                    value={displayName}
-                                    onChange={(e) => setDisplayName(e.target.value)}
-                                />
-                            </label>
-                            <label htmlFor="description">
-                                <strong>Description:</strong><br />
-                                <textarea
-                                    required
-                                    id="description"
-                                    type="text"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                />
-                            </label>
-                        </div>
+                <div className="content-container" style={{ width: '80%' }}>
+                    <div className="modal-content" style={{ width: '100%' }}>
+                        <h2 style={{ marginBottom: 0, marginTop: 0, alignSelf: 'center' }}>Create Group</h2>
+                        <label htmlFor="name">
+                            <span class="label-text">Name:</span><br />
+                            <input style={{ width: '100%' }}
+                                required
+                                id="name"
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                        </label>
+                        <label htmlFor="displayName">
+                            <span class="label-text">Display Name:</span><br />
+                            <input style={{ width: '100%' }}
+                                required
+                                id="displayName"
+                                type="text"
+                                value={displayName}
+                                onChange={(e) => setDisplayName(e.target.value)}
+                            />
+                        </label>
+                        <label htmlFor="description">
+                            <strong>Description:</strong><br />
+                            <textarea
+                                id="description"
+                                type="text"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                        </label>
                     </div>
+                </div>
                 <div className="buttons-div">
                     <button className="modal-button" type="submit">
                         Create

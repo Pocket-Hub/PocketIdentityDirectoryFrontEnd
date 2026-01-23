@@ -62,6 +62,7 @@ function App() {
     const res = await fetch("http://localhost:8080/api/v1/sync", { method: 'POST', headers: { 'Content-Type': 'application/json' } });
     if (!res.ok) setError("Something went wrong!");
     setLoading(false);
+    refresh();
   };
 
   async function refresh() {

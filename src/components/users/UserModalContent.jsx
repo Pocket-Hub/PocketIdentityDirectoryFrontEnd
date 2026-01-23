@@ -7,7 +7,7 @@ function UserModalContent({ user }) {
         <div className="content-container">
             <div className="users-info">
                 <h2 style={{ marginBottom: "0px", marginTop: "0px" }}>User Profile</h2>
-                <p style={{ marginTop: "0px", color: "darkgrey" }}>{user.id}</p>
+                <p style={{ marginTop: "0px", color: "black" }}>{user.id}</p>
                 <label><strong>Email:</strong></label>
                 <p>{user.email}</p>
                 <label><strong>First Name:</strong></label>
@@ -38,15 +38,23 @@ function UserModalContent({ user }) {
                     <h2 style={{ marginBottom: "0px", marginTop: "0px" }}>Meta</h2>
                     <div>
                         <label><strong>Valid From:</strong></label>
-                        <p>{user.validFrom?.substring(5, 7)}/{user.validFrom?.substring(8, 10)}/{user.validFrom?.substring(0, 4)}
+                        <p>
+                            {user.validFrom &&
+                                `${user.validFrom.substring(5, 7)}/${user.validFrom.substring(8, 10)}/${user.validFrom.substring(0, 4)}`}
                         </p>
+
                         <label><strong>Valid To:</strong></label>
-                        <p>{user.validTo?.substring(5, 7)}/{user.validTo?.substring(8, 10)}/{user.validTo?.substring(0, 4)}
+                        <p>
+                            {user.validTo &&
+                                `${user.validTo.substring(5, 7)}/${user.validTo.substring(8, 10)}/${user.validTo.substring(0, 4)}`}
                         </p>
+
                         <label><strong>Last Updated:</strong></label>
-                        <p>{user.lastUpdate?.substring(5, 7)}/{user.lastUpdate?.substring(8, 10)}/{user.lastUpdate?.substring(0, 4)}
+                        <p>{user.lastUpdate &&
+                                `${user.lastUpdate.substring(5, 7)}/${user.lastUpdate.substring(8, 10)}/${user.lastUpdate.substring(0, 4)}`}
+                        
                             <br />
-                             {user.lastUpdate?.substring(11, 19)}</p>
+                            {user.lastUpdate?.substring(11, 19)}</p>
                     </div>
                 </div>
             </div>

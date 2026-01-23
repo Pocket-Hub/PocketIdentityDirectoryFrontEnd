@@ -38,7 +38,7 @@ function AddUser({ close }) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(requestBody)
-        })
+        });
 
         const user = await res.json();
         setUsers([...users, user]);
@@ -58,9 +58,9 @@ function AddUser({ close }) {
                 <div className="content-container">
                     <div className="content-container">
                         <div className="modal-content">
-                            <h2 style={{ marginBottom: 0, marginTop: 0 }}>Create User</h2>
+                            <h2 style={{ marginBottom: 0, marginTop: 0, alignSelf: 'center' }}>Create User</h2>
                             <label htmlFor="email">
-                                <strong>Email:</strong><br />
+                                <span class="label-text">Email:</span><br />
                                 <input
                                     required
                                     id="email"
@@ -79,7 +79,7 @@ function AddUser({ close }) {
                                 />
                             </label>
                             <label htmlFor="lastName">
-                                <strong>Last Name:</strong><br />
+                                <span class="label-text">Last Name:</span><br />
                                 <input
                                     required
                                     id="lastName"
@@ -89,7 +89,7 @@ function AddUser({ close }) {
                                 />
                             </label>
                             <label htmlFor="loginName">
-                                <strong>Login Name:</strong><br />
+                                <span class="label-text">Login Name:</span><br />
                                 <input
                                     required
                                     id="loginName"
@@ -107,12 +107,18 @@ function AddUser({ close }) {
                                     onChange={(e) => setUserType(e.target.value)}
                                 >
                                     <option value="public">Public</option>
+                                    <option value="employee">Employee</option>
+                                    <option value="customer">Customer</option>
+                                    <option value="partner">Partner</option>
+                                    <option value="external">External</option>
+                                    <option value="onboardee">Onboardee</option>
+                                    <option value="alumni">Alumni</option>
                                 </select>
                             </label>
                         </div>
 
                         <div className="modal-content">
-                            <h2 style={{ marginBottom: 0, marginTop: 0 }}>Additional Info</h2>
+                            <h2 style={{ marginBottom: 0, marginTop: 0, alignSelf: 'center' }}>Additional Info</h2>
                             <label htmlFor="company">
                                 <strong>Company:</strong><br />
                                 <input

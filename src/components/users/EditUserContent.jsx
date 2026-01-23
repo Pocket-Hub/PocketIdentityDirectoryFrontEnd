@@ -44,9 +44,9 @@ function EditUserContent({ user, close }) {
             <form className="create-user-form" onSubmit={submitForm}>
                 <div className="content-container">
                     <div className="modal-content">
-                        <h2 style={{ marginBottom: 0, marginTop: 0 }}>Create User</h2>
+                        <h2 style={{ marginBottom: 0, marginTop: 0 }}>User Profile</h2>
                         <label htmlFor="email">
-                            <strong>Email:</strong><br />
+                            <span class="label-text">Email:</span><br />
                             <input
                                 required
                                 id="email"
@@ -65,7 +65,7 @@ function EditUserContent({ user, close }) {
                             />
                         </label>
                         <label htmlFor="lastName">
-                            <strong>Last Name:</strong><br />
+                            <span class="label-text">Last Name:</span><br />
                             <input
                                 required
                                 id="lastName"
@@ -75,7 +75,7 @@ function EditUserContent({ user, close }) {
                             />
                         </label>
                         <label htmlFor="loginName">
-                            <strong>Login Name:</strong><br />
+                            <span class="label-text">Login Name:</span><br />
                             <input
                                 required
                                 id="loginName"
