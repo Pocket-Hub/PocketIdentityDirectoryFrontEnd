@@ -73,15 +73,15 @@ function UserModal({ userId, onClose }) {
       <header className="modal-header">
         <h2 style={{ display: 'flex', alignItems: 'center' }}>
           {user.name.firstName} {user.name.lastName}
-          {editUser ? <button style={{ marginLeft: '5%' }} onClick={() => setEditUser(null)}>Exit</button>
-            :
-            <button style={{ marginLeft: '5%' }} onClick={() => setEditUser(user)}>Edit</button>
-          }
         </h2>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '10px' }}>
-          <button className="modal-button" onClick={deleteUser}>
+          <button className="delete-button" onClick={deleteUser}>
             Delete
           </button>
+          {editUser ? <button className="modal-button"  onClick={() => setEditUser(null)}>Exit</button>
+            :
+            <button className="modal-button"  onClick={() => setEditUser(user)}>Edit</button>
+          }
           <button className="modal-button" onClick={onClose}>
             Close
           </button>

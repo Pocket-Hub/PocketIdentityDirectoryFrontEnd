@@ -22,7 +22,7 @@
 }
 
 .home-table {
-    border: solid black;
+    border: solid #828282;
     border-radius: 10px;
     overflow-y: auto;
     width: 50%;
@@ -87,7 +87,7 @@ p {
     width: 50%;
 }
 
-.check-box{
+.check-box {
     background-color: white;
     color: white;
 }
@@ -106,17 +106,22 @@ table tbody>tr:nth-child(odd) {
     margin-top: 5px;
 }
 
+.delete-button {
+    background-color: rgba(180, 0, 0, 0.728);
+    color: white;
+}
+
 h2 {
     width: 15vw;
 }
 
-label > span {
+label>span {
     font-weight: bold;
 }
 
 label:has(input:required) .label-text::after {
-  content: " *";
-  color: red;
+    content: " *";
+    color: rgba(180, 0, 0, 0.728);
 }
 
 
@@ -164,4 +169,9 @@ textarea {
     border-bottom: solid #828282;
     z-index: 5;
     border-radius: 8px;
+}
+
+.inactive {
+    pointer-events: none;
+    background-color: #eee;
 }

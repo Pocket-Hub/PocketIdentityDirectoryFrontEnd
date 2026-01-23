@@ -3,6 +3,7 @@ import GroupModalContent from "./GroupModalContent";
 import { GroupsContext } from "../../App";
 import ModalUserTable from "./ModalUserTable";
 import Loading from "../Loading";
+import EditGroupContent from "./EditGroupContent";
 
 function GroupModal({ groupId, onClose }) {
     if (!groupId) return;
@@ -10,6 +11,7 @@ function GroupModal({ groupId, onClose }) {
   const [group, setGroup] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [editGroup, setEditGroup] = useState(null);
 
   useEffect(() => {
     if (!groupId) return;
@@ -62,17 +64,24 @@ function GroupModal({ groupId, onClose }) {
         <header className="modal-header">
         <h2>{group.displayName}</h2>
         <div style={{marginLeft: 'auto',display: 'flex', gap: '10px'}}>
-        <button className="modal-button" onClick={deleteGroup}>
+        <button className="delete-button" onClick={deleteGroup}>
           Delete
         </button>
+        {editGroup ? <button className="modal-button"  onClick={() => setEditGroup(null)}>Exit</button>
+            :
+            <button className="modal-button"  onClick={() => setEditGroup(group)}>Edit</button>
+          }
         <button className="modal-button" onClick={onClose}>
           Close
         </button>
         </div>
         </header>
+
+        {editGroup? <EditGroupContent group={group} close={() => setEditGroup(null)}></EditGroupContent> : <>
           <GroupModalContent group={group} />
           <hr />
           <ModalUserTable groupId={groupId} />
+          </>}
       </div>
   );
 }

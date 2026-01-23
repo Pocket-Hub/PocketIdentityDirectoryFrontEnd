@@ -74,11 +74,12 @@ function App() {
     <UsersContext.Provider value={{ users, setUsers, getUsers }}>
       <GroupsContext.Provider value={{ groups, setGroups, getGroups }}>
         <header style={{ display: 'flex' }}>
-          <h1>Pocket Identity Directory</h1>
-          <div className='buttons-div' style={{ marginLeft: 'auto', height: '20%' }}>
+          <img src='src/assets/PocketFavIcon.png' style={{width: '36px', height: '48px'}}></img>
+          <h3 style={{marginLeft: '8px'}}>Pocket Identity Directory</h3>
+          {/* <div className='buttons-div' style={{ marginLeft: 'auto', height: '20%' }}>
             <button className='modal-button' onClick={() => sync()}>Sync</button>
             <button className='modal-button' onClick={() => refresh()}>Refresh</button>
-          </div>
+          </div> */}
         </header>
         <hr />
         {loading ? <Loading /> :

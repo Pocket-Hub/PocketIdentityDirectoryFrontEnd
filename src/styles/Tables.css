@@ -16,7 +16,12 @@ tbody>.hover-tr:hover {
 table {
     width: 100%;
     margin: auto;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    overflow: hidden;
 }
 
 td>p {
@@ -33,5 +38,5 @@ thead {
     top: 0;
     z-index: 2;
     background-color: #d8d7d7;
-    border-bottom: solid #828282;
+    border-bottom: solid #000000;
 }

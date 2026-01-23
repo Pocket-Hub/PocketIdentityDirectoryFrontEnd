@@ -5,17 +5,24 @@
 
 button {
   font-weight: bold;
-  color: #0064d9;
+  color: #ffffff;
   border-radius: 8px;
   height: 35px;
   border: 1px solid black;
   font-size: 1em;
   font-family: inherit;
-  background-color: #ffffff;
+  background-color: #0064d9;
   cursor: pointer;
   transition: border-color 0.25s;
   transition: all 0.1s ease-in-out;
 }
+
+button:disabled {
+  color: #717171;    
+  border: 1px solid black;
+  cursor: not-allowed;   
+}
+
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -35,9 +42,6 @@ button {
 body {
   scrollbar-width: thin;
 }
-
-
-
 
 header {
   align-items: center;
