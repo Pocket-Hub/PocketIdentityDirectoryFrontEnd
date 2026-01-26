@@ -73,9 +73,11 @@ function ModalUserTable({ groupId }) {
             {assign && <AssignUsers update={updateGroup} close={() => setAssign(false)} groupId={groupId}></AssignUsers>}
             <div style={{ display: 'flex' }}>
                 <h2 style={{ marginBottom: "0px", marginTop: "0px" }}>Members</h2>
+                
                 <button className="modal-button" style={{ marginLeft: 'auto' }} onClick={() => setAssign(group.id)}>Assign</button>
                 <button className="modal-button" disabled={selectedItems.length == 0} style={{ marginLeft: '10px' }} onClick={() => unassignMembers()}>Unassign</button>
             </div>
+            <hr />
             <div className="content-container">
                 <table>
                     <thead>

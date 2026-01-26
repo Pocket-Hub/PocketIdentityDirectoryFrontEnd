@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { countryOptions } from "../../data/countryOptions";
 import { UsersContext } from "../../App";
+import Loading from "../Loading";
 
 
 function EditUserContent({ user, close }) {
@@ -14,8 +15,10 @@ function EditUserContent({ user, close }) {
     const [validTo, setValidTo] = useState(user.validTo ?? '');
     const [status, setStatus] = useState(user.status);
     const { users, setUsers } = useContext(UsersContext);
+    const [loading, setLoading] = useState(false);
 
     async function submitForm(e) {
+        setLoading(true);
         e.preventDefault();
         const requestBody = {
             email,
@@ -37,10 +40,12 @@ function EditUserContent({ user, close }) {
         const resUser = await res.json();
         setUsers(users.map(u => u.id == resUser.id? resUser : u))
         close();
+        setLoading(false);
     }
 
+    if(loading) return <Loading pos={'relative'}></Loading>
+
     return (
-        <div className="content-container">
             <form className="create-user-form" onSubmit={submitForm}>
                 <div className="content-container">
                     <div className="modal-content">
@@ -171,7 +176,6 @@ function EditUserContent({ user, close }) {
                     </button>
                 </div>
             </form>
-        </div>
 
     );
 }

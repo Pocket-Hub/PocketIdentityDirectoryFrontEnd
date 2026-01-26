@@ -5,8 +5,8 @@ import Loading from "../Loading";
 function AssignGroups({ update, userId, close }) {
     if (!userId) return;
     const [selectedItems, setSelectedItems] = useState([]);
-    const { users, setUsers } = useContext(UsersContext);
-    const { groups, setGroups, getGroups } = useContext(GroupsContext);
+    const { users } = useContext(UsersContext);
+    const { groups } = useContext(GroupsContext);
     const [user, setUser] = useState(users.find(u => u.id === userId))
     const [loading, setLoading] = useState(false);
     const userGroups = user?.groups ?? [];
@@ -26,7 +26,6 @@ function AssignGroups({ update, userId, close }) {
                 groups: selectedItems
             })
         });
-        getGroups();
         let resUser = await res.json();
         update(resUser)
         setSelectedItems([]);

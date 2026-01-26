@@ -4,6 +4,8 @@ import { GroupsContext } from "../../App";
 import ModalUserTable from "./ModalUserTable";
 import Loading from "../Loading";
 import EditGroupContent from "./EditGroupContent";
+import DeleteResource from "../modals/DeleteResource";
+import toast from 'react-hot-toast'
 
 function GroupModal({ groupId, onClose }) {
   if (!groupId) return;
@@ -12,6 +14,7 @@ function GroupModal({ groupId, onClose }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [editGroup, setEditGroup] = useState(null);
+  const [deleteResource, setDeleteResource] = useState(false);
 
   useEffect(() => {
     if (!groupId) return;
@@ -51,6 +54,8 @@ function GroupModal({ groupId, onClose }) {
       alert("Failed to delete group.");
     }
     setLoading(false);
+    toast.success("Group Deleted");
+
   }
 
   if (loading) return <Loading pos={'fixed'} />;
@@ -65,7 +70,7 @@ function GroupModal({ groupId, onClose }) {
         <header className="modal-header">
           <h2>{group.displayName}</h2>
           <div style={{ marginLeft: 'auto', display: 'flex', gap: '10px' }}>
-            <button className="delete-button" onClick={deleteGroup}>
+            <button className="delete-button" onClick={() => setDeleteResource(true)}>
               Delete
             </button>
             {editGroup ? <button className="modal-button" onClick={() => setEditGroup(null)}>Exit</button>
@@ -83,6 +88,7 @@ function GroupModal({ groupId, onClose }) {
           <hr />
           <ModalUserTable groupId={groupId} />
         </>}
+        {deleteResource && <DeleteResource confirm={deleteGroup} cancel={() => setDeleteResource(false)}></DeleteResource>}
       </div>
     </div>
   );

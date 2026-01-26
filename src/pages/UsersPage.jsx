@@ -10,6 +10,10 @@ function UsersPage() {
     const [loading, setLoading] = useState(false);
     const [userId, setUserId] = useState(null);
     const [addUser, setAddUser] = useState(false);
+    const [status, setStatus] = useState("");
+    const [userType, setUserType] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [groupName, setGroupName] = useState("");
 
 
     useEffect(() => {
@@ -19,8 +23,17 @@ function UsersPage() {
 
     async function getUsers() {
         setLoading(true);
+
+        const params = { status, userType, lastName, groupName };
+
+        const searchParams = new URLSearchParams(
+            Object.entries(params).filter(
+                ([_, value]) => value !== undefined && value !== null && value !== ""
+            )
+        );
+
         try {
-            let res = await fetch("http://localhost:8080/api/v1/users");
+            let res = await fetch("http://localhost:8080/api/v1/users?" + searchParams.toString());
             if (!res.ok) {
                 throw new Error(`HTTP error! status: ${res.status}`);
             };
@@ -32,6 +45,11 @@ function UsersPage() {
         };
         setLoading(false);
     };
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        getUsers();
+    }
 
     function deleteIasUser(id) {
         setUsers(prevUsers => prevUsers.filter(u => u.id !== id));
@@ -45,7 +63,16 @@ function UsersPage() {
 
     return (
         <div className="home-table">
-            <div style={{ display: 'flex', padding: '0.5rem' }}><button onClick={() => setAddUser(true)}>Add</button><button style={{ marginLeft: 'auto' }} onClick={() => getUsers()}>refresh</button></div>
+            <div style={{ display: 'flex', padding: '0.5rem' }}>
+                <button onClick={() => setAddUser(true)}>Add</button>
+                <form onSubmit={handleSubmit} className="search-div">
+                    <input value={status} onChange={(e) => setStatus(e.target.value)} placeholder="Status..."></input>
+                    <input value={userType} onChange={(e) => setUserType(e.target.value)} placeholder="User Type..."></input>
+                    <input value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last Name..."></input>
+                    <input value={groupName} onChange={(e) => setGroupName(e.target.value)} placeholder="Member of Group..."></input>
+                    <button style={{ marginLeft: 'auto' }}>↺</button>
+                </form>
+            </div>
             <hr style={{ margin: '0' }} />
             {userId && <UserModal userId={userId} onClose={() => setUserId(null)} onDelete={deleteIasUser}></UserModal>}
             <table>

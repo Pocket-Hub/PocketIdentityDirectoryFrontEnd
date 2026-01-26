@@ -5,6 +5,8 @@ import { UsersContext } from "../../App";
 import UserModalContent from "./UserModalContent";
 import Loading from "../Loading";
 import EditUserContent from "./EditUserContent";
+import DeleteResource from "../modals/DeleteResource";
+import toast from 'react-hot-toast'
 
 function UserModal({ userId, onClose }) {
   const { users, setUsers } = useContext(UsersContext);
@@ -12,6 +14,7 @@ function UserModal({ userId, onClose }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [editUser, setEditUser] = useState(false);
+  const [deleteResource, setDeleteResource] = useState(false);
 
   useEffect(() => {
     if (!userId) return;
@@ -53,6 +56,7 @@ function UserModal({ userId, onClose }) {
       alert("Failed to delete user.");
     }
     setLoading(false);
+    toast.success("User Deleted");
   }
 
   if (loading) return <Loading pos={'fixed'} />;
@@ -76,7 +80,7 @@ function UserModal({ userId, onClose }) {
               {user.name.firstName} {user.name.lastName}
             </h2>
             <div style={{ marginLeft: 'auto', display: 'flex', gap: '10px' }}>
-              <button className="delete-button" onClick={deleteUser}>
+              <button className="delete-button" onClick={() => setDeleteResource(true)}>
                 Delete
               </button>
               {editUser ? <button className="modal-button" onClick={() => setEditUser(null)}>Exit</button>
@@ -97,6 +101,7 @@ function UserModal({ userId, onClose }) {
             closeModal={onClose}
             userId={user.id}
           />
+          {deleteResource && <DeleteResource confirm={deleteUser} cancel={() => setDeleteResource(false)}></DeleteResource>}
         </>
         }
       </div>

@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import HomePage from './pages/HomePage';
 import UsersPage from './pages/UsersPage';
 import GroupsPage from './pages/GroupsPage'
+import Loading from './components/Loading'
+import { Toaster } from 'react-hot-toast'
 
 export const UsersContext = createContext({ users: [], setUsers: () => { }});
 export const GroupsContext = createContext({ groups: [], setGroups: () => { }});
@@ -15,14 +17,9 @@ function App() {
   const [users, setUsers] = useState([]);
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [addUser, setAddUser] = useState(false);
-  const [addGroup, setAddGroup] = useState(false);
-  const [loadingUsers, setLoadingUsers] = useState(false);
-  const [loadingGroups, setLoadingGroups] = useState(false);
+
 
   async function getGroups() {
-    setLoadingGroups(true);
     try {
       let res = await fetch("http://localhost:8080/api/v1/groups");
       if (!res.ok) {
@@ -34,11 +31,9 @@ function App() {
       setError(err);
       console.log(err);
     }
-    setLoadingGroups(false);
   };
 
   async function getUsers() {
-    setLoadingUsers(true);
     try {
       let res = await fetch("http://localhost:8080/api/v1/users");
       if (!res.ok) {
@@ -50,7 +45,6 @@ function App() {
       setError(err);
       console.log(err);
     };
-    setLoadingUsers(false);
   };
   
   async function sync() {
@@ -66,13 +60,17 @@ function App() {
     getGroups();
   };
 
+  if (loading) return <Loading pos={'fixed'}/>
+
   return (
     <BrowserRouter>
       <UsersContext.Provider value={{ users, setUsers, getUsers }}>
         <GroupsContext.Provider value={{ groups, setGroups, getGroups }}>
+          <Toaster position='bottom-left' />
           <header style={{ display: 'flex' }}>
             <Link to="/" c><img src='src/assets/PocketFavIcon.png' style={{ width: '36px', height: '48px' }}></img></Link>
             <h3 style={{ marginLeft: '8px' }}>Pocket Identity Directory</h3>
+            <button style={{marginLeft: 'auto'}} onClick={() => sync()}>Sync</button>
           </header>
           <hr />
 

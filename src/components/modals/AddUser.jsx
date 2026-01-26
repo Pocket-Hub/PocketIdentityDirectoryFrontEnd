@@ -48,14 +48,14 @@ function AddUser({ close }) {
 
     if (loading) return (
         <div className="home-table">
-            <Loading></Loading>
+            <Loading pos={'fixed'}></Loading>
         </div>
     );
 
     return (
         <div className="modal-backdrop">
             <form className="create-user-form" onSubmit={submitForm}>
-                <div className="modal-frame">
+                <div className="modal-frame" style={{justifyContent:'center'}}>
                     <div className="content-container">
                         <div className="modal-content">
                             <h2 style={{ marginBottom: 0, marginTop: 0, alignSelf: 'center' }}>Create User</h2>

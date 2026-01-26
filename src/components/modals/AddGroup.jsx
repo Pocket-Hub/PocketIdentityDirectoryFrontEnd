@@ -44,11 +44,11 @@ function AddGroup({ close }) {
 
         <div className="modal-backdrop">
             <form className="create-user-form" onSubmit={submitForm}>
-                <div className="modal-frame" style={{ width: '80%' }}>
+                <div className="modal-frame" style={{overflowY: 'clip', height: '20rem', justifyContent: 'center' }}>
                     <div className="modal-content" style={{ width: '100%' }}>
                         <h2 style={{ marginBottom: 0, marginTop: 0, alignSelf: 'center' }}>Create Group</h2>
                         <label htmlFor="name">
-                            <span class="label-text">Name:</span><br />
+                            <span className="label-text">Name:</span><br />
                             <input style={{ width: '100%' }}
                                 required
                                 id="name"
@@ -58,7 +58,7 @@ function AddGroup({ close }) {
                             />
                         </label>
                         <label htmlFor="displayName">
-                            <span class="label-text">Display Name:</span><br />
+                            <span className="label-text">Display Name:</span><br />
                             <input style={{ width: '100%' }}
                                 required
                                 id="displayName"

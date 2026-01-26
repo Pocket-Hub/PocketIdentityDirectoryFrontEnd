@@ -11,6 +11,7 @@ function EditGroupContent({ group, close }) {
     const [loading, setLoading] = useState(false);
 
     async function submitForm(e) {
+        setLoading(true);
         e.preventDefault();
 
         const requestBody = {
@@ -19,7 +20,6 @@ function EditGroupContent({ group, close }) {
             description
         };
 
-        setLoading(true);
         const res = await fetch(`http://localhost:8080/api/v1/groups/${group.id}`, {
             method: "PUT",
             headers: {
@@ -34,7 +34,7 @@ function EditGroupContent({ group, close }) {
         close();
     }
 
-    if (loading) return <Loading/>;
+    if (loading) return <Loading pos={'relative'}></Loading>
 
     return (
         <form className="create-user-form" onSubmit={submitForm}>
@@ -42,7 +42,7 @@ function EditGroupContent({ group, close }) {
                 <div className="modal-content" style={{ width: '100%' }}>
                     <h2 style={{ marginBottom: 0, marginTop: 0, alignSelf: 'center' }}>Edit Group</h2>
                     <label htmlFor="name">
-                        <span class="label-text">Name:</span><br />
+                        <span className="label-text">Name:</span><br />
                         <input className="inactive" style={{ width: '100%' }}
                             disabled
                             required
@@ -53,7 +53,7 @@ function EditGroupContent({ group, close }) {
                         />
                     </label>
                     <label htmlFor="displayName">
-                        <span class="label-text">Display Name:</span><br />
+                        <span className="label-text">Display Name:</span><br />
                         <input style={{ width: '100%' }}
                             required
                             id="displayName"
