@@ -24,14 +24,13 @@ function UserModal({ userId, onClose }) {
       setError(null);
 
       try {
-        const res = await fetch(`http://localhost:8080/api/v1/users/${userId}`);
+        const res = await fetch(`/api/v1/users/${userId}`);
         if (!res.ok) throw new Error("Failed to fetch user");
         const json = await res.json();
         setUser(json);
       } catch (err) {
         console.error(err);
         setError("Failed to load user.");
-        setUser(null);
       } finally {
         setLoading(false);
       }
@@ -45,18 +44,21 @@ function UserModal({ userId, onClose }) {
     setLoading(true);
 
     try {
-      const res = await fetch(`http://localhost:8080/api/v1/users/${user.id}`, {
+      const res = await fetch(`/api/v1/users/${user.id}`, {
         method: "DELETE",
       });
-      if (!res.ok) throw new Error("Failed to delete user");
       setUsers((prev) => prev.filter((u) => u.id !== userId));
       onClose();
     } catch (err) {
       console.error(err);
       alert("Failed to delete user.");
     }
+    if (res.status != 204) {
+      toast.error(`Failed to delete ${user.email} :(`)
+    } else {
+      toast.success(`${user.email} Deleted!`);
+    }
     setLoading(false);
-    toast.success("User Deleted");
   }
 
   if (loading) return <Loading pos={'fixed'} />;
@@ -75,35 +77,36 @@ function UserModal({ userId, onClose }) {
   return (
     <div className="modal-backdrop">
       <div className="modal-frame">
-          <header className="modal-header">
-            <h2 style={{ display: 'flex', alignItems: 'center' }}>
-              {user.name.firstName} {user.name.lastName}
-            </h2>
-            <div style={{ marginLeft: 'auto', display: 'flex', gap: '10px' }}>
-              <button className="delete-button" onClick={() => setDeleteResource(true)}>
-                Delete
-              </button>
-              {editUser ? <button className="modal-button" onClick={() => setEditUser(null)}>Exit</button>
-                :
-                <button className="modal-button" onClick={() => setEditUser(user)}>Edit</button>
-              }
-              <button className="modal-button" onClick={onClose}>
-                Close
-              </button>
-            </div>
-          </header>
-        {editUser ? <EditUserContent user={editUser} close={() => setEditUser(null)} /> : <>
+        <header className="modal-header">
+          <h2 style={{ display: 'flex', alignItems: 'center' }}>
+            {user.name.firstName} {user.name.lastName}
+          </h2>
+          <div style={{ marginLeft: 'auto', display: 'flex', gap: '10px' }}>
+            <button className="delete-button" onClick={() => setDeleteResource(true)}>
+              Delete
+            </button>
+            {editUser ? <button className="modal-button" onClick={() => setEditUser(null)}>Exit</button>
+              :
+              <button className="modal-button" onClick={() => setEditUser(user)}>Edit</button>
+            }
+            <button className="modal-button" onClick={onClose}>
+              Close
+            </button>
+          </div>
+        </header>
+        <div>
+          {editUser ? <EditUserContent user={editUser} close={() => setEditUser(null)} /> : <>
 
-          <UserModalContent user={user} />
-          <hr />
-          <ModalGroupTable
-            groups={user.groups || []}
-            closeModal={onClose}
-            userId={user.id}
-          />
-          {deleteResource && <DeleteResource confirm={deleteUser} cancel={() => setDeleteResource(false)}></DeleteResource>}
-        </>
-        }
+            <UserModalContent user={user} />
+            <hr />
+            <ModalGroupTable
+              groups={user.groups?? []}
+              closeModal={onClose}
+              iasUser={user}
+            />
+            {deleteResource && <DeleteResource confirm={deleteUser} cancel={() => setDeleteResource(false)}></DeleteResource>}
+          </>
+          }</div>
       </div>
     </div>
   );

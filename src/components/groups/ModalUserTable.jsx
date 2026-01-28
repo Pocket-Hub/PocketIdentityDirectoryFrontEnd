@@ -14,7 +14,7 @@ function ModalUserTable({ groupId }) {
     async function unassignMembers() {
         setLoading(true);
         try {
-            const res = await fetch(`http://localhost:8080/api/v1/groups/${groupId}`, {
+            const res = await fetch(`/api/v1/groups/${groupId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'

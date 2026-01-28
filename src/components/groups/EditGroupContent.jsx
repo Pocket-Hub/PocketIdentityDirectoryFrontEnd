@@ -20,7 +20,7 @@ function EditGroupContent({ group, close }) {
             description
         };
 
-        const res = await fetch(`http://localhost:8080/api/v1/groups/${group.id}`, {
+        const res = await fetch(`/api/v1/groups/${group.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"

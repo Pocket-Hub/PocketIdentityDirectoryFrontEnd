@@ -16,7 +16,7 @@ function AssignUsers({ update, groupId, close }) {
 
     async function assign() {
         setLoading(true);
-        const res = await fetch(`http://localhost:8080/api/v1/groups/${groupId}`, {
+        const res = await fetch(`/api/v1/groups/${groupId}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'
@@ -86,7 +86,7 @@ function AssignUsers({ update, groupId, close }) {
                                     </td>
                                     <td>{user.id}</td>
                                     <td>{user.email}</td>
-                                    <td>{user.name.lastName}</td>
+                                    <td>{user.lastName}</td>
                                 </tr>
                             ))}
                         </tbody>

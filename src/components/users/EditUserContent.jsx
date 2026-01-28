@@ -9,7 +9,7 @@ function EditUserContent({ user, close }) {
     const [email, setEmail] = useState(user.email);
     const [name, setName] = useState({ firstName: user.firstName ?? '', lastName: user.name.lastName });
     const [loginName, setLoginName] = useState(user.loginName);
-    const [userType, setUserType] = useState(user.userType);
+    const [type, setType] = useState(user.userType);
     const [companyInfo, setCompanyInfo] = useState({ company: user.companyInfo?.company ?? '', country: user.companyInfo?.country ?? '', city: user.companyInfo?.city ?? '' });
     const [validFrom, setValidFrom] = useState(user.validFrom ?? '');
     const [validTo, setValidTo] = useState(user.validTo ?? '');
@@ -24,13 +24,13 @@ function EditUserContent({ user, close }) {
             email,
             name,
             loginName,
-            userType,
+            type,
             companyInfo,
             status,
             validFrom: !validFrom || validFrom.trim() === "" ? null : new Date(validFrom).toISOString(),
             validTo: !validTo || validTo.trim() === "" ? null : new Date(validTo).toISOString(),
         };
-        const res = await fetch(`http://localhost:8080/api/v1/users/${user.id}`, {
+        const res = await fetch(`/api/v1/users/${user.id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'
@@ -90,16 +90,22 @@ function EditUserContent({ user, close }) {
                             />
                         </label>
                         <label htmlFor="userType">
-                            <strong>User Type:</strong><br />
-                            <select
-                                required
-                                id="userType"
-                                value={userType}
-                                onChange={(e) => setUserType(e.target.value)}
-                            >
-                                <option value="public">Public</option>
-                            </select>
-                        </label>
+                                <strong>User Type:</strong><br />
+                                <select
+                                    required
+                                    id="userType"
+                                    value={type}
+                                    onChange={(e) => setType(e.target.value)}
+                                >
+                                    <option value="public">Public</option>
+                                    <option value="employee">Employee</option>
+                                    <option value="customer">Customer</option>
+                                    <option value="partner">Partner</option>
+                                    <option value="external">External</option>
+                                    <option value="onboardee">Onboardee</option>
+                                    <option value="alumni">Alumni</option>
+                                </select>
+                            </label>
                         <label htmlFor="status">
                             <strong>Status:</strong><br />
                             <select

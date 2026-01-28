@@ -3,10 +3,10 @@ import { GroupsContext, UsersContext } from "../../App";
 import Loading from "../Loading";
 import AssignGroups from "./AssignGroups";
 
-function ModalGroupTable({ userId }) {
+function ModalGroupTable({ iasUser, groups }) {
     const [selectedItems, setSelectedItems] = useState([]);
     const { users, setUsers } = useContext(UsersContext);
-    const [user, setUser] = useState(users.find(u => u.id === userId));
+    const [user, setUser] = useState(iasUser);
     const [assign, setAssign] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -19,7 +19,7 @@ function ModalGroupTable({ userId }) {
 
     async function unassignGroups() {
         setLoading(true);
-        const res = await fetch(`http://localhost:8080/api/v1/users/${userId}`, {
+        const res = await fetch(`/api/v1/users/${user.id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'
@@ -46,23 +46,23 @@ function ModalGroupTable({ userId }) {
 
     function handleCheckAllBoxes(e) {
         if (e.target.checked) {
-            setSelectedItems(user.groups?.map(group => group.id.toString()));
+            setSelectedItems(groups?.map(group => group.id.toString()));
         } else {
             setSelectedItems([]);
         }
     };
 
-    const allSelected = user.groups?.length > 0 && selectedItems.length === user.groups?.length;
+    const allSelected = groups?.length > 0 && selectedItems.length === user.groups?.length;
 
     if (loading) return <Loading/>
 
     return (
         <div style={{marginTop: '5%'}}>
-            <AssignGroups update={updateUser} userId={assign} close={() => setAssign(null)}></AssignGroups>
+            <AssignGroups update={updateUser} iasUser={assign} close={() => setAssign(null)}></AssignGroups>
             <div style={{ display: 'flex' }}>
                 <h2 style={{ marginBottom: "0px", marginTop: "0px" }}>Groups</h2>
                
-                <button className="modal-button" style={{ marginLeft: 'auto' }} onClick={() => setAssign(userId)}>Assign</button>
+                <button className="modal-button" style={{ marginLeft: 'auto' }} onClick={() => setAssign(user)}>Assign</button>
                 <button className="modal-button" disabled={selectedItems.length == 0} style={{ marginLeft: '10px' }} onClick={unassignGroups}>Unassign</button>
             </div>
             <hr />
@@ -83,7 +83,7 @@ function ModalGroupTable({ userId }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {user.groups?.map(group => (
+                        {groups?.map(group => (
                             <tr key={group.id}>
                                 <td>
                                     <input className="check-box"

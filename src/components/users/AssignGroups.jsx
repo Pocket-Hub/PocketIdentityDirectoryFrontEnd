@@ -1,22 +1,29 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GroupsContext, UsersContext } from "../../App";
 import Loading from "../Loading";
 
-function AssignGroups({ update, userId, close }) {
-    if (!userId) return;
+function AssignGroups({ update, iasUser, close }) {
+    if (!iasUser) return;
     const [selectedItems, setSelectedItems] = useState([]);
     const { users } = useContext(UsersContext);
-    const { groups } = useContext(GroupsContext);
-    const [user, setUser] = useState(users.find(u => u.id === userId))
+    const { groups, getGroups } = useContext(GroupsContext);
+    const [user, setUser] = useState(iasUser)
     const [loading, setLoading] = useState(false);
     const userGroups = user?.groups ?? [];
     const displayGroups = groups.filter(
         g => !userGroups.some(ug => ug.id === g.id)
     );
 
+    useEffect(() => {
+        setLoading(true);
+        getGroups();
+        setLoading(false);
+    }, [])
+
+
     async function assign() {
         setLoading(true);
-        const res = await fetch(`http://localhost:8080/api/v1/users/${userId}`, {
+        const res = await fetch(`/api/v1/users/${user.id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'

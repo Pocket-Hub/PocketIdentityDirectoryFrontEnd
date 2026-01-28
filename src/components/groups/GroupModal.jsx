@@ -23,7 +23,7 @@ function GroupModal({ groupId, onClose }) {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`http://localhost:8080/api/v1/groups/${groupId}`);
+        const res = await fetch(`/api/v1/groups/${groupId}`);
         if (!res.ok) throw new Error("Failed to fetch group");
         const json = await res.json();
         setGroup(json);
@@ -43,19 +43,21 @@ function GroupModal({ groupId, onClose }) {
     if (!group) return;
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:8080/api/v1/groups/${groupId}`, {
+      const res = await fetch(`/api/v1/groups/${groupId}`, {
         method: "DELETE",
       });
-      if (!res.ok) throw new Error("Failed to delete group");
       setGroups((prev) => prev.filter((g) => g.id !== groupId));
       onClose();
     } catch (err) {
       console.error(err);
       alert("Failed to delete group.");
     }
+    if (res.status != 204) {
+      toast.error(`Failed to delete ${group.name} :(`);
+    } else {
+      toast.success(`${group.name} Deleted!`);
+    }
     setLoading(false);
-    toast.success("Group Deleted");
-
   }
 
   if (loading) return <Loading pos={'fixed'} />;
@@ -66,7 +68,7 @@ function GroupModal({ groupId, onClose }) {
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-frame">
+      <div className="modal-frame" style={{ overflow: 'unset' }}>
         <header className="modal-header">
           <h2>{group.displayName}</h2>
           <div style={{ marginLeft: 'auto', display: 'flex', gap: '10px' }}>
@@ -83,11 +85,13 @@ function GroupModal({ groupId, onClose }) {
           </div>
         </header>
 
-        {editGroup ? <EditGroupContent group={group} close={() => setEditGroup(null)}></EditGroupContent> : <>
-          <GroupModalContent group={group} />
-          <hr />
-          <ModalUserTable groupId={groupId} />
-        </>}
+        <div style={{ overflowY: 'auto' }}>
+          {editGroup ? <EditGroupContent group={group} close={() => setEditGroup(null)}></EditGroupContent> : <>
+            <GroupModalContent group={group} />
+            <hr />
+            <ModalUserTable groupId={groupId} />
+          </>}
+        </div>
         {deleteResource && <DeleteResource confirm={deleteGroup} cancel={() => setDeleteResource(false)}></DeleteResource>}
       </div>
     </div>

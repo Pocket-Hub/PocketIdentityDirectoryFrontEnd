@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { UsersContext } from "../../App";
 import Loading from "../Loading";
 import { countryOptions } from "../../data/countryOptions";
+import ExitIcon from "../../assets/exit.png"
 
 
 
@@ -11,7 +12,7 @@ function AddUser({ close }) {
     const [email, setEmail] = useState("");
     const [name, setName] = useState({ firstName: "", lastName: "" });
     const [loginName, setLoginName] = useState("");
-    const [userType, setUserType] = useState("public");
+    const [type, setType] = useState("public");
     const [companyInfo, setCompanyInfo] = useState({ company: "", country: "", city: "" });
     const [validFrom, setValidFrom] = useState("");
     const [validTo, setValidTo] = useState("");
@@ -25,14 +26,14 @@ function AddUser({ close }) {
             email,
             name,
             loginName,
-            userType,
+            type,
             companyInfo,
             validFrom: !validFrom || validFrom.trim() === "" ? null : new Date(validFrom).toISOString(),
             validTo: !validTo || validTo.trim() === "" ? null : new Date(validTo).toISOString(),
         };
 
         setLoading(true);
-        const res = await fetch("http://localhost:8080/api/v1/users", {
+        const res = await fetch("/api/v1/users", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -54,23 +55,28 @@ function AddUser({ close }) {
 
     return (
         <div className="modal-backdrop">
-            <form className="create-user-form" onSubmit={submitForm}>
-                <div className="modal-frame" style={{justifyContent:'center'}}>
-                    <div className="content-container">
+            <div className="modal-frame" style={{ paddingTop: '0', overflowY: 'unset' }}>
+                <form className="create-user-form" onSubmit={submitForm}>
+                    <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+                        <h2 style={{ marginTop: '0', marginBottom: '0px', width: 'fit-content' }}>Create User</h2>
+                        <button style={{ marginLeft: 'auto', background: 'transparent' }} onClick={close}><img src={ExitIcon} style={{ height: '1rem' }}></img></button>
+                    </div>
+                    <hr style={{ width: '99%', margin: '0' }} />
+                    <div className="content-container" style={{ marginTop: '3rem' }}>
                         <div className="modal-content">
-                            <h2 style={{ marginBottom: 0, marginTop: 0, alignSelf: 'center' }}>Create User</h2>
                             <label htmlFor="email">
-                                <span class="label-text">Email:</span><br />
+                                <span class="label-text">Email:</span>
                                 <input
                                     required
                                     id="email"
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
+                                    autoFocus
                                 />
                             </label>
                             <label htmlFor="firstName">
-                                <strong>First Name:</strong><br />
+                                <strong>First Name:</strong>
                                 <input
                                     id="firstName"
                                     type="text"
@@ -79,7 +85,7 @@ function AddUser({ close }) {
                                 />
                             </label>
                             <label htmlFor="lastName">
-                                <span class="label-text">Last Name:</span><br />
+                                <span class="label-text">Last Name:</span>
                                 <input
                                     required
                                     id="lastName"
@@ -89,7 +95,7 @@ function AddUser({ close }) {
                                 />
                             </label>
                             <label htmlFor="loginName">
-                                <span class="label-text">Login Name:</span><br />
+                                <span class="label-text">Login Name:</span>
                                 <input
                                     required
                                     id="loginName"
@@ -99,12 +105,12 @@ function AddUser({ close }) {
                                 />
                             </label>
                             <label htmlFor="userType">
-                                <strong>User Type:</strong><br />
+                                <strong>User Type:</strong>
                                 <select
                                     required
                                     id="userType"
-                                    value={userType}
-                                    onChange={(e) => setUserType(e.target.value)}
+                                    value={type}
+                                    onChange={(e) => setType(e.target.value)}
                                 >
                                     <option value="public">Public</option>
                                     <option value="employee">Employee</option>
@@ -118,9 +124,8 @@ function AddUser({ close }) {
                         </div>
 
                         <div className="modal-content">
-                            <h2 style={{ marginBottom: 0, marginTop: 0, alignSelf: 'center' }}>Additional Info</h2>
                             <label htmlFor="company">
-                                <strong>Company:</strong><br />
+                                <strong>Company:</strong>
                                 <input
                                     id="company"
                                     type="text"
@@ -129,12 +134,13 @@ function AddUser({ close }) {
                                 />
                             </label>
                             <label htmlFor="country">
-                                <strong>Country:</strong><br />
+                                <strong>Country:</strong>
                                 <select
                                     id="country"
                                     value={companyInfo.country}
                                     onChange={(e) => setCompanyInfo({ ...companyInfo, country: e.target.value })}
                                 >
+                                    <option value=""></option>
                                     {countryOptions.map((country) => (
                                         <option key={country.value} value={country.value}>
                                             {country.label}
@@ -143,7 +149,7 @@ function AddUser({ close }) {
                                 </select>
                             </label>
                             <label htmlFor="city">
-                                <strong>City:</strong><br />
+                                <strong>City:</strong>
                                 <input
                                     id="city"
                                     type="text"
@@ -152,7 +158,7 @@ function AddUser({ close }) {
                                 />
                             </label>
                             <label htmlFor="validFrom">
-                                <strong>Valid From:</strong><br />
+                                <strong>Valid From:</strong>
                                 <input
                                     id="validFrom"
                                     type="date"
@@ -161,7 +167,7 @@ function AddUser({ close }) {
                                 />
                             </label>
                             <label htmlFor="validTo">
-                                <strong>Valid To:</strong><br />
+                                <strong>Valid To:</strong>
                                 <input
                                     id="validTo"
                                     type="date"
@@ -170,19 +176,16 @@ function AddUser({ close }) {
                                 />
                             </label>
                         </div>
-                    </div>
-                </div>
 
-                <div className="buttons-div">
+                    </div>
                     <button className="modal-button" type="submit">
                         Create
                     </button>
-                    <button className="modal-button" type="button" onClick={close}>
-                        Close
-                    </button>
-                </div>
-            </form>
-        </div>
+                </form >
+            </div>
+        </div >
+
+
 
     );
 
