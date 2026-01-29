@@ -62,49 +62,53 @@ function AssignGroups({ update, iasUser, close }) {
 
     return (
         <div className="modal-backdrop" >
-            <h1>Assign Groups</h1>
-            <div className="modal-frame" style={{ height: '40vh', width: '35vw', padding: '0'}}>
-                {loading? <Loading/> : 
-                <div className="content-container" style={{width: '100%'}}>
-                    <table style={{width: '100%'}}>
-                        <thead>
-                            <tr>
-                                <th>
-                                    <input className="check-box"
-                                        type="checkbox"
-                                        checked={allSelected}
-                                        onChange={handleCheckAllBoxes}
-                                    />
-                                </th>
-                                <th>ID</th>
-                                <th>Display Name</th>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {displayGroups.map(group => (
-                                <tr key={group.id}>
-                                    <td>
+
+            <div className="modal-frame" style={{ height: '40vh', width: '35vw', padding: '0' }}>
+                <h2 style={{ marginBottom: '1rem', marginTop: '1rem', alignSelf: 'center', width: 'fit-content' }}>Assign Groups</h2>
+                <hr style={{ margin: '0' }} />
+                {loading ? <Loading /> :
+                    <div className="content-container" style={{ width: '100%', margin: '0', marginBottom: 'auto', flexDirection: 'column' }}>
+                        <table style={{ width: '100%' }}>
+                            <thead>
+                                <tr>
+                                    <th>
                                         <input className="check-box"
                                             type="checkbox"
-                                            value={group.id}
-                                            checked={selectedItems.includes(group.id.toString())}
-                                            onChange={handleCheckBoxChange}
+                                            checked={allSelected}
+                                            onChange={handleCheckAllBoxes}
                                         />
-                                    </td>
-                                    <td>{group.id}</td>
-                                    <td>{group.displayName}</td>
-                                    <td>{group.name}</td>
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Display Name</th>
+                                    <th>Name</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>}
-            </div>
-            <div className="buttons-div" style={{marginTop: '5px'}}>
+                            </thead>
+                            <tbody>
+                                {displayGroups.map(group => (
+                                    <tr key={group.id}>
+                                        <td>
+                                            <input className="check-box"
+                                                type="checkbox"
+                                                value={group.id}
+                                                checked={selectedItems.includes(group.id.toString())}
+                                                onChange={handleCheckBoxChange}
+                                            />
+                                        </td>
+                                        <td>{group.id}</td>
+                                        <td>{group.displayName}</td>
+                                        <td>{group.name}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        {displayGroups.length == 0 && <h2 style={{ justifySelf: 'center', alignSelf: 'center', width: 'fit-content' }}>No Groups to Assign</h2>}
+                    </div>}
+                <div className="buttons-div" style={{ marginTop: '5px', alignSelf: 'center', justifySelf: 'center', padding: '1rem' }}>
                     <button disabled={selectedItems.length == 0} className="modal-button" onClick={assign}>Assign</button>
                     <button className="modal-button" onClick={close}>Close</button>
                 </div>
+            </div>
+
         </div >
     );
 }

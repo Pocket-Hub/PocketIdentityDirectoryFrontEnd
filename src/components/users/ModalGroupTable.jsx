@@ -54,20 +54,18 @@ function ModalGroupTable({ iasUser, groups }) {
 
     const allSelected = groups?.length > 0 && selectedItems.length === user.groups?.length;
 
-    if (loading) return <Loading/>
+    if (loading) return <Loading />
 
     return (
-        <div style={{marginTop: '5%'}}>
+        <div style={{ marginTop: '1rem' }}>
             <AssignGroups update={updateUser} iasUser={assign} close={() => setAssign(null)}></AssignGroups>
-            <div style={{ display: 'flex' }}>
-                <h2 style={{ marginBottom: "0px", marginTop: "0px" }}>Groups</h2>
-               
+
+            <div style={{ display: 'flex', paddingBottom: '5px', padding: '3px' }}>
                 <button className="modal-button" style={{ marginLeft: 'auto' }} onClick={() => setAssign(user)}>Assign</button>
                 <button className="modal-button" disabled={selectedItems.length == 0} style={{ marginLeft: '10px' }} onClick={unassignGroups}>Unassign</button>
             </div>
-            <hr />
-            <div className="content-container">
-                <table>
+            <div style={{ boxShadow: '1px 3px 5px gray', margin: '3px', borderRadius: '8px', overflow: 'clip', minHeight: '30vh' }}>
+                <table >
                     <thead>
                         <tr>
                             <th>
@@ -100,6 +98,8 @@ function ModalGroupTable({ iasUser, groups }) {
                         ))}
                     </tbody>
                 </table>
+                {groups.length == 0 && <h2 style={{ alignSelf: 'center', justifySelf: 'center', width: 'fit-content' }}>No Assigned Groups</h2>}
+
             </div>
         </div>
     );

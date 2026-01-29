@@ -7,6 +7,10 @@ import Loading from "../Loading";
 import EditUserContent from "./EditUserContent";
 import DeleteResource from "../modals/DeleteResource";
 import toast from 'react-hot-toast'
+import TrashIcon from '../../assets/trash.png'
+import EditIcon from '../../assets/edit.png'
+import CloseIcon from '../../assets/exit.png'
+import GroupsIcon from '../../assets/groups.png'
 
 function UserModal({ userId, onClose }) {
   const { users, setUsers } = useContext(UsersContext);
@@ -15,6 +19,7 @@ function UserModal({ userId, onClose }) {
   const [error, setError] = useState(null);
   const [editUser, setEditUser] = useState(false);
   const [deleteResource, setDeleteResource] = useState(false);
+  const [groupsVisible, setGroupsVisible] = useState(false);
 
   useEffect(() => {
     if (!userId) return;
@@ -48,17 +53,22 @@ function UserModal({ userId, onClose }) {
         method: "DELETE",
       });
       setUsers((prev) => prev.filter((u) => u.id !== userId));
+      if (res.status != 204) {
+        toast.error(`Failed to delete ${user.email} :(`)
+      } else {
+        toast.success(`${user.email} Deleted!`);
+      }
       onClose();
     } catch (err) {
       console.error(err);
       alert("Failed to delete user.");
     }
-    if (res.status != 204) {
-      toast.error(`Failed to delete ${user.email} :(`)
-    } else {
-      toast.success(`${user.email} Deleted!`);
-    }
+
     setLoading(false);
+  }
+
+  function reverseProp(func) {
+    func();
   }
 
   if (loading) return <Loading pos={'fixed'} />;
@@ -72,38 +82,60 @@ function UserModal({ userId, onClose }) {
     </div>
   );
 
+  function showGroups() {
+    setGroupsVisible(true);
+    setEditUser(null);
+  }
+  function showEdit() {
+    setEditUser(user);
+    setGroupsVisible(false);
+  }
+
   if (!user) return null;
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-frame">
-        <header className="modal-header">
-          <h2 style={{ display: 'flex', alignItems: 'center' }}>
-            {user.name.firstName} {user.name.lastName}
-          </h2>
-          <div style={{ marginLeft: 'auto', display: 'flex', gap: '10px' }}>
-            <button className="delete-button" onClick={() => setDeleteResource(true)}>
-              Delete
-            </button>
-            {editUser ? <button className="modal-button" onClick={() => setEditUser(null)}>Exit</button>
-              :
-              <button className="modal-button" onClick={() => setEditUser(user)}>Edit</button>
-            }
-            <button className="modal-button" onClick={onClose}>
-              Close
-            </button>
-          </div>
-        </header>
+      <div className="modal-frame" style={{ width: '40vw' }}>
         <div>
-          {editUser ? <EditUserContent user={editUser} close={() => setEditUser(null)} /> : <>
+          <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+            <h2 style={{ margin: '0', width: 'fit-content' }}>
+              {user.email} <br />
+              <p style={{ margin: '0', color: '#556b82', fontSize: '1rem' }}>{user.id}</p>
+            </h2>
+            <div style={{ marginLeft: 'auto', display: 'flex', gap: '10px', flexDirection: 'column' }}>
+              <div style={{ marginLeft: 'auto' }}>
+                <button style={{ background: 'transparent' }} className="modal-button" onClick={onClose}>
+                  <img src={CloseIcon} style={{ height: '1rem', width: '1rem' }}></img>
+                </button>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'row', gap: '5px' }}>
+                {editUser ? <></> : <button style={{ background: 'transparent' }} onClick={() => setDeleteResource(true)}>
+                  <img src={TrashIcon} style={{ height: '1rem', width: '1rem' }}></img>
+                </button>
+                }
+                {editUser ? <button className="modal-button" onClick={() => setEditUser(null)}>Exit</button>
+                  :
+                  <button className="modal-button" onClick={showEdit} style={{ background: 'transparent' }}><img src={EditIcon} style={{ height: '1rem', width: '1rem' }}></img></button>
+                }
+              </div>
+            </div>
+            <br />
+          </div>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <p className="modal-selection" style={{ backgroundColor: groupsVisible ? '' : 'rgb(196, 196, 196)' }} onClick={() => setGroupsVisible(false)}>User Info</p>
+            <p className="modal-selection" style={{ backgroundColor: groupsVisible ? 'rgb(196, 196, 196)' : '' }} onClick={showGroups}>Groups</p>
+          </div>
+        </div>
+        <hr style={{ width: '99%', margin: '0', marginTop: '5px' }} />
+        <div style={{ overflowY: 'auto' }}>
+          {editUser ? <EditUserContent user={editUser} close={() => setEditUser(null)} reverseProp={reverseProp} /> : <>
 
-            <UserModalContent user={user} />
-            <hr />
-            <ModalGroupTable
-              groups={user.groups?? []}
+            {groupsVisible ? <ModalGroupTable
+              groups={user.groups ?? []}
               closeModal={onClose}
               iasUser={user}
-            />
+            /> :
+              <UserModalContent user={user} />}
             {deleteResource && <DeleteResource confirm={deleteUser} cancel={() => setDeleteResource(false)}></DeleteResource>}
           </>
           }</div>

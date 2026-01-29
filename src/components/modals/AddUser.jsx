@@ -31,18 +31,24 @@ function AddUser({ close }) {
             validFrom: !validFrom || validFrom.trim() === "" ? null : new Date(validFrom).toISOString(),
             validTo: !validTo || validTo.trim() === "" ? null : new Date(validTo).toISOString(),
         };
-
         setLoading(true);
-        const res = await fetch("/api/v1/users", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(requestBody)
-        });
 
-        const user = await res.json();
-        setUsers([...users, user]);
+        try {
+            const res = await fetch("/api/v1/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            const user = await res.json();
+            setUsers([...users, user]);
+        }catch(err){
+            console.log(err);
+        }
+
+        
         setLoading(false);
         close();
     }
@@ -55,11 +61,11 @@ function AddUser({ close }) {
 
     return (
         <div className="modal-backdrop">
-            <div className="modal-frame" style={{ paddingTop: '0', overflowY: 'unset' }}>
+            <div className="modal-frame" style={{ paddingTop: '0', overflowY: 'unset', height: '50vh' }}>
                 <form className="create-user-form" onSubmit={submitForm}>
                     <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
                         <h2 style={{ marginTop: '0', marginBottom: '0px', width: 'fit-content' }}>Create User</h2>
-                        <button style={{ marginLeft: 'auto', background: 'transparent' }} onClick={close}><img src={ExitIcon} style={{ height: '1rem' }}></img></button>
+                        <button type="button" style={{ marginLeft: 'auto', background: 'transparent' }} onClick={close}><img src={ExitIcon} style={{ height: '1rem', width: '1rem' }}></img></button>
                     </div>
                     <hr style={{ width: '99%', margin: '0' }} />
                     <div className="content-container" style={{ marginTop: '3rem' }}>

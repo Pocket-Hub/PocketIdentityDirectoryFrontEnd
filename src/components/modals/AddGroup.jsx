@@ -49,7 +49,7 @@ function AddGroup({ close }) {
                 <form className="create-user-form" onSubmit={submitForm}>
                     <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
                         <h2 style={{ marginTop: '0', marginBottom: '0px', width: 'fit-content' }}>Create Group</h2>
-                        <button style={{ marginLeft: 'auto', background: 'transparent' }} onClick={close}><img src={ExitIcon} style={{ height: '1rem' }}></img></button>
+                        <button type="button" style={{ marginLeft: 'auto', background: 'transparent' }} onClick={close}><img src={ExitIcon} style={{ height: '1rem', width: '1rem' }}></img></button>
                     </div>
                     <hr style={{ width: '99%', margin: '0' }} />
                     <div style={{ display: 'flex', flexDirection: 'column', overflowY: 'auto', width: '99%' }}>

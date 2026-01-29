@@ -47,16 +47,17 @@ function GroupModal({ groupId, onClose }) {
         method: "DELETE",
       });
       setGroups((prev) => prev.filter((g) => g.id !== groupId));
+      if (res.status != 204) {
+        toast.error(`Failed to delete ${group.name} :(`);
+      } else {
+        toast.success(`${group.name} Deleted!`);
+      }
       onClose();
     } catch (err) {
       console.error(err);
       alert("Failed to delete group.");
     }
-    if (res.status != 204) {
-      toast.error(`Failed to delete ${group.name} :(`);
-    } else {
-      toast.success(`${group.name} Deleted!`);
-    }
+
     setLoading(false);
   }
 

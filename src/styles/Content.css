@@ -1,0 +1,16 @@
+input,
+select,
+p {
+    margin-bottom: 5px;
+    padding: 0;
+    height: 3vh;
+    margin-top: 0;
+}
+
+.modal-content {
+    gap: unset;
+}
+
+input:disabled {
+    background-color: #d7d7d7;
+}
