@@ -16,16 +16,17 @@ function GroupsPage({ setPage }) {
     const [name, setName] = useState("");
     const [displayName, setDisplayName] = useState("");
     const [error, setError] = useState(null);
+    const [requestPage, setRequestPage] = useState(0);
 
     useEffect(() => {
         getGroups();
         setPage(window.location.href)
-    }, [])
+    }, [requestPage])
 
     async function getGroups() {
         setLoading(true);
 
-        const params = { name, displayName }
+        const params = { name, displayName, page: requestPage }
 
         const searchParams = new URLSearchParams(
             Object.entries(params).filter(
@@ -48,6 +49,7 @@ function GroupsPage({ setPage }) {
 
     function handleSubmit(e) {
         e.preventDefault();
+        setRequestPage(0);
         getGroups();
     }
 
@@ -70,25 +72,27 @@ function GroupsPage({ setPage }) {
 
                 {groupId && <GroupModal groupId={groupId} onClose={() => setGroupId(null)}></ GroupModal>}
                 {loading ? <Loading pos={'relative'} /> :
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Display Name</th>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {groups.map(group => (
-                                <tr className='hover-tr' key={group.id} onClick={() => setGroupId(group.id)}>
-                                    <td>{group.id}</td>
-                                    <td>{group.displayName}</td>
-                                    <td>{group.name}</td>
+                    <>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Display Name</th>
+                                    <th>Name</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>}
+                            </thead>
+                            <tbody>
+                                {groups.map(group => (
+                                    <tr className='hover-tr' key={group.id} onClick={() => setGroupId(group.id)}>
+                                        <td>{group.id}</td>
+                                        <td>{group.displayName}</td>
+                                        <td>{group.name}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <div className="add-page-div"><h2 className="add-page" onClick={() => setRequestPage(requestPage + 1)}>More</h2></div>
+                    </>}
                 {addGroup && <AddGroup close={() => setAddGroup(false)}></AddGroup>}
             </div>
         </div>

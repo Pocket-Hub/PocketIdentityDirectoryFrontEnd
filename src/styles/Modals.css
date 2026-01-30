@@ -204,9 +204,18 @@ textarea {
 }
 
 label>p {
-    color: #808080c9;
     margin: 0;
     font-size: 1rem;
+}
+
+.add-page {
+    justify-self: center;
+    width: fit-content;
+}
+
+.add-page:hover {
+    cursor: pointer;
+    background-color: #808080c9;
 }
 
 .modal-header {

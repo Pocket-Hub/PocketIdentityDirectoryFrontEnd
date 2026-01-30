@@ -4,6 +4,7 @@ import Loading from "../Loading";
 import { countryOptions } from "../../data/countryOptions";
 import ExitIcon from "../../assets/exit.png"
 import ErrorModal from "./ErrorModal";
+import toast from "react-hot-toast";
 
 
 
@@ -49,11 +50,12 @@ function AddUser({ close }) {
             }
             setUsers([...users, user]);
 
-            setLoading(false);
             close();
         } catch (err) {
+            toast.error(err.message, {
+                position: 'top-center'
+            })
             setError(err);
-            console.log(err)
         }
         setLoading(false);
     }
@@ -69,7 +71,6 @@ function AddUser({ close }) {
                     <hr style={{ width: '99%', margin: '0' }} />
 
                     {loading ? <Loading /> : <>
-                        {error && <p style={{ backgroundColor: '#ff6b6b', borderRadius: '8px', height: 'fit-content', padding: '3px', maxHeight: '4rem', wordBreak: 'break-word', marginTop: '5vh', position: 'absolute' }}>{error.message}</p>}
                         <div className="content-container" style={{ marginTop: '3rem' }}>
                             <div className="modal-content">
                                 <label htmlFor="email">

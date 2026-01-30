@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { GroupsContext } from "../../App";
 import Loading from "../Loading";
 import ExitIcon from "../../assets/exit.png"
+import toast from "react-hot-toast";
 
 
 function EditGroupContent({ group, close }) {
@@ -10,6 +11,7 @@ function EditGroupContent({ group, close }) {
     const [displayName, setDisplayName] = useState(group.displayName);
     const [description, setDescription] = useState(group.description ?? '');
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     async function submitForm(e) {
         setLoading(true);
@@ -21,18 +23,27 @@ function EditGroupContent({ group, close }) {
             description
         };
 
-        const res = await fetch(`/api/v1/groups/${group.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(requestBody)
-        })
+        try {
 
-        const resGroup = await res.json();
-        setGroups(groups.map(g => g.id == resGroup.id ? resGroup : g));
+            const res = await fetch(`/api/v1/groups/${group.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestBody)
+            })
+
+            const resGroup = await res.json();
+            if (res.status >= 400) throw new Error(resGroup.message || "Failed to edit group!")
+            setGroups(groups.map(g => g.id == resGroup.id ? resGroup : g));
+            close();
+        } catch (err) {
+            toast.error(err.message, {
+                position: 'top-center'
+            })
+            setError(err);
+        }
         setLoading(false);
-        close();
     }
 
     if (loading) return <Loading pos={'relative'}></Loading>

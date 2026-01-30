@@ -53,14 +53,12 @@ function App() {
   };
 
   async function sync() {
-    toast.success("Started Sync Job!")
     const res = await fetch("/api/v1/sync", { method: 'POST', headers: { 'Content-Type': 'application/json' } });
-    if (res.status == 204) {
-      toast.success("Sync Job Finished!")
-    } else {
-      toast.error("Sync job failed :(")
-    }
   };
+
+  function toastSync() {
+    toast.promise(sync(), { loading: 'Syncing...', success: 'Synced successfully!', error: 'Failed syncing' })
+  }
 
   return (
     <BrowserRouter>
@@ -71,7 +69,7 @@ function App() {
             <Link to="/"><img src={PocketLogo} style={{ width: '36px', height: '48px' }}></img></Link>
             <h3 style={{ marginLeft: '8px' }}>Pocket Identity Directory</h3>
 
-            <button style={{ marginLeft: 'auto', width: '3.2rem' }} onClick={() => sync()}>Sync</button>
+            <button style={{ marginLeft: 'auto', width: '3.2rem' }} onClick={() => toastSync()}>Sync</button>
             <a href='/do/logout'><button style={{ padding: '0px', display: 'flex', background: 'transparent', boxShadow: 'unset' }}><img src={LogoutButton} style={{ width: '30px' }}></img></button></a>
 
           </header>

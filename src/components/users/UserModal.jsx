@@ -56,7 +56,7 @@ function UserModal({ userId, onClose }) {
       if (res.status != 204) {
         toast.error(`Failed to delete ${user.email} :(`)
       } else {
-        toast.success(`${user.email} Deleted!`);
+        toast.success(`User: ${user.email} Deleted!`);
       }
       onClose();
     } catch (err) {
