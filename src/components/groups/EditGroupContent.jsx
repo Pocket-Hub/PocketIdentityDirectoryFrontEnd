@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { GroupsContext } from "../../App";
 import Loading from "../Loading";
+import ExitIcon from "../../assets/exit.png"
 
 
 function EditGroupContent({ group, close }) {
@@ -37,49 +38,65 @@ function EditGroupContent({ group, close }) {
     if (loading) return <Loading pos={'relative'}></Loading>
 
     return (
-        <form className="create-user-form" onSubmit={submitForm}>
-            <div className="content-container" style={{ width: '80%' }}>
-                <div className="modal-content" style={{ width: '100%' }}>
-                    <h2 style={{ marginBottom: 0, marginTop: 0, alignSelf: 'center' }}>Edit Group</h2>
-                    <label htmlFor="name">
-                        <span className="label-text">Name:</span><br />
-                        <input className="inactive" style={{ width: '100%' }}
-                            disabled
-                            required
-                            id="name"
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    </label>
-                    <label htmlFor="displayName">
-                        <span className="label-text">Display Name:</span><br />
-                        <input style={{ width: '100%' }}
-                            required
-                            id="displayName"
-                            type="text"
-                            value={displayName}
-                            onChange={(e) => setDisplayName(e.target.value)}
-                        />
-                    </label>
-                    <label htmlFor="description">
-                        <strong>Description:</strong><br />
-                        <textarea
-                            id="description"
-                            type="text"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
-                    </label>
-                </div>
-            </div>
-            <div className="buttons-div">
-                <button className="modal-button" type="submit">
-                    Save
-                </button>
-            </div>
-        </form>
+        <div className="modal-backdrop">
 
+            <div className="modal-frame" style={{ paddingTop: '0', overflowY: 'unset', height: '40vh', width: '40vw' }}>
+                <form className="create-user-form" onSubmit={submitForm}>
+                    <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+                        <h2 style={{ marginTop: '0', marginBottom: '0px', width: 'fit-content' }}>Edit Group</h2>
+                        <button type="button" style={{ marginLeft: 'auto', background: 'transparent' }} onClick={close}><img src={ExitIcon} style={{ height: '1rem', width: '1rem' }}></img></button>
+                    </div>
+                    <hr style={{ width: '99%', margin: '0' }} />
+                    <div style={{ display: 'flex', flexDirection: 'column', overflowY: 'auto', width: '99%' }}>
+
+                        <div className="content-container" style={{ marginTop: '2rem', overflow: 'unset' }}>
+                            <div className="modal-content">
+                                <label htmlFor="name" style={{ display: '' }}>
+                                    <span className="label-text">Name:</span><br />
+                                    <input style={{ width: '100%' }}
+                                        disabled
+                                        required
+                                        id="name"
+                                        type="text"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
+                                </label>
+                            </div>
+                            <div className="modal-content">
+                                <label htmlFor="displayName">
+                                    <span className="label-text">Display Name:</span><br />
+                                    <input style={{ width: '100%' }}
+                                        required
+                                        id="displayName"
+                                        type="text"
+                                        value={displayName}
+                                        onChange={(e) => setDisplayName(e.target.value)}
+                                        autoFocus
+                                    />
+                                </label>
+                            </div>
+
+                        </div>
+                        <div style={{ width: '100%', marginTop: '2rem' }}>
+                            <label htmlFor="description">
+                                <strong>Description:</strong><br />
+                                <textarea
+                                    id="description"
+                                    type="text"
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                            </label>
+                        </div>
+                    </div>
+                    <button className="modal-button" type="submit">
+                        Save
+                    </button>
+                </form>
+            </div>
+
+        </div >
     );
 }
 

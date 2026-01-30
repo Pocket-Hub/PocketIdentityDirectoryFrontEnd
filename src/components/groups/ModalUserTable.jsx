@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import Loading from "../Loading";
 import { GroupsContext } from "../../App";
 import AssignUsers from "./AssignUsers";
+import ErrorModal from "../modals/ErrorModal";
 
 
 function ModalUserTable({ groupId }) {
@@ -10,6 +11,7 @@ function ModalUserTable({ groupId }) {
     const { groups, setGroups } = useContext(GroupsContext);
     const [group, setGroup] = useState(groups.find(g => g.id === groupId))
     const [assign, setAssign] = useState(null);
+    const [error, setError] = useState(null);
 
     async function unassignMembers() {
         setLoading(true);
@@ -24,17 +26,16 @@ function ModalUserTable({ groupId }) {
                     users: selectedItems
                 })
             });
-
-            if (!res.ok) {
-                throw new Error('Server returned an error');
-            }
-
             const resGroup = await res.json();
 
+
+            if (!res.ok) {
+                throw new Error(resGroup.message || "Failed to fetch");
+            }
             updateGroup(resGroup);
             setSelectedItems([]);
         } catch (err) {
-            console.error('Fetch failed:', err);
+            setError(err);
         } finally {
             setLoading(false);
         }
@@ -69,16 +70,17 @@ function ModalUserTable({ groupId }) {
     if (loading) return <Loading></Loading>
 
     return (
-        <div style={{ height: '50%', marginTop: '5%' }}>
+        <div style={{ height: '50%' }}>
+            {error && <ErrorModal close={() => setError(null)} message={error.message} />}
             {assign && <AssignUsers update={updateGroup} close={() => setAssign(false)} groupId={groupId}></AssignUsers>}
             <div style={{ display: 'flex' }}>
                 <h2 style={{ marginBottom: "0px", marginTop: "0px" }}>Members</h2>
-                
+
                 <button className="modal-button" style={{ marginLeft: 'auto' }} onClick={() => setAssign(group.id)}>Assign</button>
                 <button className="modal-button" disabled={selectedItems.length == 0} style={{ marginLeft: '10px' }} onClick={() => unassignMembers()}>Unassign</button>
             </div>
             <hr />
-            <div className="content-container">
+            <div className="content-container" style={{ marginTop: '0', height: '27vh', overflowY: 'auto' }}>
                 <table>
                     <thead>
                         <tr>

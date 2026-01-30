@@ -10,7 +10,7 @@ import toast from 'react-hot-toast'
 import TrashIcon from '../../assets/trash.png'
 import EditIcon from '../../assets/edit.png'
 import CloseIcon from '../../assets/exit.png'
-import GroupsIcon from '../../assets/groups.png'
+import ErrorModal from "../modals/ErrorModal";
 
 function UserModal({ userId, onClose }) {
   const { users, setUsers } = useContext(UsersContext);
@@ -30,12 +30,12 @@ function UserModal({ userId, onClose }) {
 
       try {
         const res = await fetch(`/api/v1/users/${userId}`);
-        if (!res.ok) throw new Error("Failed to fetch user");
         const json = await res.json();
+        if (!res.ok) throw new Error(json.message || "Failed to fetch user");
         setUser(json);
       } catch (err) {
-        console.error(err);
-        setError("Failed to load user.");
+        setError(err);
+        console.log(error);
       } finally {
         setLoading(false);
       }
@@ -61,7 +61,6 @@ function UserModal({ userId, onClose }) {
       onClose();
     } catch (err) {
       console.error(err);
-      alert("Failed to delete user.");
     }
 
     setLoading(false);
@@ -73,14 +72,7 @@ function UserModal({ userId, onClose }) {
 
   if (loading) return <Loading pos={'fixed'} />;
 
-  if (error) return (
-    <div className="modal-backdrop">
-      <div className="modal-frame">
-        <p>{error}</p>
-        <button onClick={onClose} className="modal-button">Close</button>
-      </div>
-    </div>
-  );
+  if (error) return <ErrorModal close={() => setError(null)} message={error.message} />
 
   function showGroups() {
     setGroupsVisible(true);

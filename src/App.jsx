@@ -63,7 +63,7 @@ function App() {
   };
 
   return (
-    <BrowserRouter basename='/index.html'>
+    <BrowserRouter>
       <UsersContext.Provider value={{ users, setUsers, getUsers }}>
         <GroupsContext.Provider value={{ groups, setGroups, getGroups }}>
           <Toaster position='bottom-left' />
@@ -72,7 +72,7 @@ function App() {
             <h3 style={{ marginLeft: '8px' }}>Pocket Identity Directory</h3>
 
             <button style={{ marginLeft: 'auto', width: '3.2rem' }} onClick={() => sync()}>Sync</button>
-            <a href='/do/logout'><button style={{padding: '0px', display: 'flex', background: 'transparent' }}><img src={LogoutButton} style={{ width: '30px' }}></img></button></a>
+            <a href='/do/logout'><button style={{ padding: '0px', display: 'flex', background: 'transparent', boxShadow: 'unset' }}><img src={LogoutButton} style={{ width: '30px' }}></img></button></a>
 
           </header>
           <hr style={{ margin: '0' }} />

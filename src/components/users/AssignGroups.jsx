@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { GroupsContext, UsersContext } from "../../App";
 import Loading from "../Loading";
+import ErrorModal from "../modals/ErrorModal";
 
 function AssignGroups({ update, iasUser, close }) {
     if (!iasUser) return;
@@ -9,6 +10,7 @@ function AssignGroups({ update, iasUser, close }) {
     const { groups, getGroups } = useContext(GroupsContext);
     const [user, setUser] = useState(iasUser)
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const userGroups = user?.groups ?? [];
     const displayGroups = groups.filter(
         g => !userGroups.some(ug => ug.id === g.id)
@@ -23,21 +25,29 @@ function AssignGroups({ update, iasUser, close }) {
 
     async function assign() {
         setLoading(true);
-        const res = await fetch(`/api/v1/users/${user.id}`, {
-            method: 'PATCH',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                action: "add",
-                groups: selectedItems
-            })
-        });
-        let resUser = await res.json();
-        update(resUser)
-        setSelectedItems([]);
-        setLoading(false);
-        close();
+        try {
+
+            const res = await fetch(`/api/v1/users/${user.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: "add",
+                    groups: selectedItems
+                })
+            });
+            let resUser = await res.json();
+            if (!res.ok) {
+                throw new Error(resUser.message || "Failed to fetch")
+            }
+            update(resUser)
+            setSelectedItems([]);
+        } catch (err) {
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     function handleCheckBoxChange(e) {
@@ -62,7 +72,7 @@ function AssignGroups({ update, iasUser, close }) {
 
     return (
         <div className="modal-backdrop" >
-
+            {error && <ErrorModal close={() => setError(null)} message={error.message} />}
             <div className="modal-frame" style={{ height: '40vh', width: '35vw', padding: '0' }}>
                 <h2 style={{ marginBottom: '1rem', marginTop: '1rem', alignSelf: 'center', width: 'fit-content' }}>Assign Groups</h2>
                 <hr style={{ margin: '0' }} />

@@ -1,36 +1,51 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GroupsContext, UsersContext } from "../../App";
 import Loading from "../Loading";
+import ErrorModal from "../modals/ErrorModal";
 
 function AssignUsers({ update, groupId, close }) {
     if (!groupId) return;
     const [selectedItems, setSelectedItems] = useState([]);
-    const { users } = useContext(UsersContext);
+    const { users, getUsers } = useContext(UsersContext);
     const { groups } = useContext(GroupsContext);
     const [group, setGroup] = useState(groups.find(g => g.id === groupId))
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const groupMembers = group?.members ?? [];
     const displayUsers = users.filter(
         u => !groupMembers.some(gm => gm.id === u.id)
     );
 
+    useEffect(() => {
+        setLoading(true);
+        getUsers();
+        setLoading(false);
+    }, [])
+
     async function assign() {
         setLoading(true);
-        const res = await fetch(`/api/v1/groups/${groupId}`, {
-            method: 'PATCH',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                action: "add",
-                users: selectedItems
-            })
-        });
-        let resGroup = await res.json();
-        update(resGroup)
-        setSelectedItems([]);
-        setLoading(false);
-        close();
+
+        try {
+            const res = await fetch(`/api/v1/groups/${groupId}`, {
+                method: 'PATCH',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: "add",
+                    users: selectedItems
+                })
+            });
+            let resGroup = await res.json();
+            if (!res.ok) throw new Error(resGroup.message || "Failed to fetch");
+            update(resGroup)
+            setSelectedItems([]);
+        } catch (err) {
+            setError(err);
+        }
+        finally {
+            setLoading(false);
+        }
     };
 
     function handleCheckBoxChange(e) {
@@ -54,49 +69,54 @@ function AssignUsers({ update, groupId, close }) {
 
     return (
         <div className="modal-backdrop" >
-            <h1>Assign Members</h1>
-            <div className="modal-frame" style={{ height: '40vh', width: '35vw', padding: '0'}}>
-                {loading? <Loading/> : 
-                <div className="content-container" style={{width: '100%'}}>
-                    <table style={{width: '100%'}}>
-                        <thead>
-                            <tr>
-                                <th>
-                                    <input className="check-box"
-                                        type="checkbox"
-                                        checked={allSelected}
-                                        onChange={handleCheckAllBoxes}
-                                    />
-                                </th>
-                                <th>ID</th>
-                                <th>Email</th>
-                                <th>Last Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {displayUsers.map(user => (
-                                <tr key={user.id}>
-                                    <td>
+            {error && <ErrorModal close={() => setError(null)} message={error.message} />}
+            <div className="modal-frame" style={{ height: '40vh', width: '35vw', padding: '0' }}>
+                <h2 style={{ marginBottom: '1rem', marginTop: '1rem', alignSelf: 'center', width: 'fit-content' }}>Assign Members</h2>
+                <hr style={{ margin: '0' }} />
+                {loading ? <Loading /> :
+                    <div className="content-container" style={{ width: '100%', margin: '0', marginBottom: 'auto', flexDirection: 'column' }}>
+                        <table style={{ width: '100%' }}>
+                            <thead>
+                                <tr>
+                                    <th>
                                         <input className="check-box"
                                             type="checkbox"
-                                            value={user.id}
-                                            checked={selectedItems.includes(user.id.toString())}
-                                            onChange={handleCheckBoxChange}
+                                            checked={allSelected}
+                                            onChange={handleCheckAllBoxes}
                                         />
-                                    </td>
-                                    <td>{user.id}</td>
-                                    <td>{user.email}</td>
-                                    <td>{user.lastName}</td>
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Email</th>
+                                    <th>Last Name</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>}
-            </div>
-            <div className="buttons-div" style={{marginTop: '5px'}}>
+                            </thead>
+                            <tbody>
+                                {displayUsers.map(user => (
+                                    <tr key={user.id}>
+                                        <td>
+                                            <input className="check-box"
+                                                type="checkbox"
+                                                value={user.id}
+                                                checked={selectedItems.includes(user.id.toString())}
+                                                onChange={handleCheckBoxChange}
+                                            />
+                                        </td>
+                                        <td>{user.id}</td>
+                                        <td>{user.email}</td>
+                                        <td>{user.lastName}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        {displayUsers.length == 0 && <h2 style={{ justifySelf: 'center', alignSelf: 'center', width: 'fit-content' }}>No Users to Assign</h2>}
+
+                    </div>}
+                <div className="buttons-div" style={{ marginTop: '5px', alignSelf: 'center', justifySelf: 'center', padding: '1rem' }}>
                     <button disabled={selectedItems.length == 0} className="modal-button" onClick={assign}>Assign</button>
                     <button className="modal-button" onClick={close}>Close</button>
                 </div>
+            </div>
+
         </div >
     );
 }
