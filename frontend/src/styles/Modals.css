@@ -1,0 +1,270 @@
+.modal-backdrop {
+    background-color: rgba(160, 160, 160, 0.678);
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    align-content: center;
+    justify-items: center;
+}
+
+.modal-selection {
+    padding-left: 3px;
+    padding-right: 3px;
+    align-content: center;
+    margin-bottom: 0;
+    border-radius: 8px;
+}
+
+.modal-selection:hover {
+    cursor: pointer;
+    background-color: #808080c9;
+}
+
+.user-info-modal {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.home-table-div {
+    display: flex;
+    gap: 2%;
+}
+
+.home-table {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    width: 85vw;
+    max-height: 80vh;
+    border-bottom: #828282;
+    border-radius: 10px;
+    min-height: 5rem;
+    box-shadow: 1px 3px 5px grey;
+}
+
+.modal-frame,
+.modal {
+    background-color: rgb(255, 255, 255);
+    height: 60vh;
+    width: 50vw;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-frame {
+    overflow-y: unset;
+}
+
+.modal-button {
+    margin-top: auto;
+    border-radius: 8px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+td {
+    word-break: break-all;
+}
+
+p {
+    margin-top: 0;
+}
+
+.create-user-form {
+    align-self: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.search-div {
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.search-div>input,
+.search-div>select {
+    padding: 0.2rem;
+    width: 20%;
+    margin-left: auto;
+    height: 2rem;
+}
+
+.search-div>select>option {
+    color: black;
+}
+
+.content-container {
+    margin-top: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    overflow-y: auto;
+}
+
+.modal-content {
+    gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.check-box {
+    background-color: white;
+    color: white;
+    width: unset;
+}
+
+table tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+table tbody>tr:nth-child(odd) {
+    background-color: #d8d7d7;
+}
+
+.buttons-div {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.delete-button {
+    background-color: rgba(180, 0, 0, 0.728);
+    color: white;
+}
+
+h2 {
+    width: 15vw;
+}
+
+label>span {
+    font-weight: bold;
+}
+
+label:has(input:required) .label-text::after {
+    content: " *";
+    color: rgba(180, 0, 0, 0.728);
+}
+
+
+input,
+select {
+    color: black;
+    background: transparent;
+    width: 100%;
+    height: 2rem;
+    padding: 0.2rem;
+    font-size: 1rem;
+    border: 2px solid #c6c6c6;
+    border-radius: 0.375rem;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+label {
+    width: 100%;
+}
+
+
+textarea {
+    border: 1px solid #c6c6c6;
+    color: black;
+    background: transparent;
+    width: 99%;
+    min-height: 15vh;
+    resize: vertical;
+    font-size: 16px;
+    overflow-y: auto;
+    resize: none;
+    border-radius: 8px;
+}
+
+
+.users-info {
+    width: 50%;
+    word-break: break-all;
+}
+
+label>p {
+    height: 2rem;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.add-page {
+    justify-self: center;
+    width: fit-content;
+}
+
+.add-page-div:hover {
+    cursor: pointer;
+    background-color: #808080c9;
+}
+
+.modal-header {
+    display: flex;
+    gap: 10px;
+    max-height: 6vh;
+    position: sticky;
+    top: 0;
+    background-color: #eeeeee;
+    border-bottom: solid #828282;
+    z-index: 5;
+    border-radius: 8px;
+}
+
+.inactive {
+    pointer-events: none;
+    background-color: #eee;
+}
+
+.tile {
+    color: black;
+    height: 11rem;
+    width: 11rem;
+    background-color: rgb(228, 228, 228);
+    border-radius: 8px;
+    border: 1px solid rgba(101, 101, 101, 0.379);
+    box-shadow: 0 4px 4px grey;
+    padding: 1vw;
+    margin: 1rem;
+    text-align: center;
+}
+
+.tile:hover {
+    color: black;
+    background-color: rgb(196, 196, 196);
+}
+
+.tile-div {
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.tile-div>img {
+    margin: auto;
+    height: 4rem;
+    width: 4rem;
+}

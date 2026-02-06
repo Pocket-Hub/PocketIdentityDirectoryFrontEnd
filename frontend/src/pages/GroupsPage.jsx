@@ -1,0 +1,100 @@
+import { useContext, useEffect, useState } from "react";
+import { GroupsContext, IconsContext } from "../App";
+import Loading from "../components/Loading";
+import GroupModal from "../components/groups/GroupModal"
+import AddGroup from "../components/groups/modals/AddGroup";
+import ErrorModal from "../components/modals/ErrorModal";
+
+
+
+function GroupsPage({ setPage }) {
+    const { RefreshIcon } = useContext(IconsContext);
+    const [groupId, setGroupId] = useState(null);
+    const { groups, setGroups } = useContext(GroupsContext);
+    const [loading, setLoading] = useState(false);
+    const [addGroup, setAddGroup] = useState(false);
+    const [name, setName] = useState("");
+    const [displayName, setDisplayName] = useState("");
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        getGroups();
+        setPage(window.location.href)
+    }, [])
+
+    async function getGroups() {
+        setLoading(true);
+
+        const params = { name, displayName }
+
+        const searchParams = new URLSearchParams(
+            Object.entries(params).filter(
+                ([_, value]) => value !== undefined && value !== null && value !== ""
+            )
+        );
+
+        try {
+            let res = await fetch("/api/v1/groups?" + searchParams.toString());
+            let json = await res.json();
+            if (!res.ok) {
+                throw new Error(json.message || "Something went wrong! " + res.status);
+            };
+            setGroups(json.resources);
+
+        } catch (err) {
+            setError(err);
+        }
+        setLoading(false);
+    };
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        getGroups();
+    }
+
+
+    return (
+        <div className="home-table">
+            {error && <ErrorModal close={() => setError(null)} message={error.message} />}
+
+            <div style={{ display: 'flex', padding: '1%', height: '6vh', flexDirection: 'column' }}>
+                <form onSubmit={handleSubmit} className="search-div">
+                    <h3 style={{ margin: '0', alignContent: 'center' }}>Groups({groups.length})</h3>
+                    <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Name..."></input>
+                    <input value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Display Name..."></input>
+                    <button type="button" onClick={() => setAddGroup(true)} style={{ width: '3rem', marginLeft: 'auto' }}>Add</button>
+                    <button type="submit" style={{ marginLeft: '0.5rem', height: '1.5rem', width: '1.5rem', background: 'transparent', color: 'black' }}><img style={{ height: '1.5rem' }} src={RefreshIcon}></img></button>
+                </form>
+                <hr style={{ width: '100%' }} />
+            </div>
+
+            <div style={{ overflowY: 'auto', height: '70vh', borderRadius: '8px' }}>
+
+                {groupId && <GroupModal groupId={groupId} onClose={() => setGroupId(null)}></ GroupModal>}
+                {loading ? <Loading pos={'relative'} /> :
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Display Name</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {groups.map(group => (
+                                <tr className='hover-tr' key={group.id} onClick={() => setGroupId(group.id)}>
+                                    <td>{group.id}</td>
+                                    <td>{group.displayName}</td>
+                                    <td>{group.name}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>}
+                {addGroup && <AddGroup close={() => setAddGroup(false)}></AddGroup>}
+            </div>
+        </div>
+    );
+}
+
+
+export default GroupsPage;

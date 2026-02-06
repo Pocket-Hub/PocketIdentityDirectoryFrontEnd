@@ -1,0 +1,26 @@
+{
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "/api/(.*)",
+      "target": "/api/$1",
+      "destination": "Pocket-Identity-Directory-Backend",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/(.*\\.(html|js|css|map|png|jpg|jpeg|svg|ico|woff2?))$",
+      "target": "$1",
+      "localDir": "dist",
+      "authenticationType": "ias"
+    },
+    {
+      "source": "^(?!.*\\.).*$",
+      "target": "/index.html",
+      "localDir": "dist",
+      "authenticationType": "ias"
+    }
+  ],
+  "logout": {
+    "logoutEndpoint": "/do/logout"
+  }
+}

@@ -1,0 +1,21 @@
+---
+applications:
+- name: pocket-frontend
+  memory: 128M
+  buildpacks:
+    - nodejs_buildpack
+  command: npm run start
+  services:
+    - identity
+  routes:
+    - route: pocket-frontend-63706e5etrial.cfapps.us10-001.hana.ondemand.com
+  env:
+    destinations: >
+      [
+        {
+          "name": "Pocket-Identity-Directory-Backend",
+          "url": "https://pocket.cfapps.us10-001.hana.ondemand.com/",
+          "forwardAuthToken": true
+        }
+      ]
+  
