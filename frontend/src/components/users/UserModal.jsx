@@ -94,10 +94,15 @@ function UserModal({ userId, onClose }) {
   async function updateUser() {
     setLoadingEditForm(true);
 
+    if (!name.firstName) {
+      setName({ lastName: name.lastName })
+    }
+
     const requestBody = { email, name, loginName, type, companyInfo, status, validFrom: !validFrom || validFrom.trim() === "" ? null : new Date(validFrom).toISOString(), validTo: !validTo || validTo.trim() === "" ? null : new Date(validTo).toISOString() };
 
     try {
       const resUser = await saveUser(requestBody, userId);
+      console.log(requestBody);
       setUsers(users.map(u => u.id == resUser.id ? resUser : u))
       setEditUser(null);
     } catch (err) {
@@ -172,8 +177,8 @@ function UserModal({ userId, onClose }) {
             <br />
           </div>
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <p className="modal-selection" style={{ backgroundColor: groupsVisible ? '' : 'rgb(196, 196, 196)' }} onClick={() => setGroupsVisible(false)}>User Info</p>
-            <p className="modal-selection" style={{ backgroundColor: groupsVisible ? 'rgb(196, 196, 196)' : '' }} onClick={showGroups}>Groups</p>
+            <p className="modal-selection" style={{ borderBottom: groupsVisible ? '' : '2px solid #00A1DD', color: groupsVisible ? '' : '#00A1DD' }} onClick={() => setGroupsVisible(false)}>User Info</p>
+            <p className="modal-selection" style={{ borderBottom: groupsVisible ? '2px solid #00A1DD' : '', color: groupsVisible ? '#00A1DD' : '' }} onClick={showGroups}>Groups</p>
           </div>
         </div>
         <hr style={{ width: '99%', margin: '0', marginTop: '5px' }} />

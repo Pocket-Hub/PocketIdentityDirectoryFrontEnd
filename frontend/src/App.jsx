@@ -25,6 +25,7 @@ import MobileErrorPage from './pages/MobileErrorPage'
 export const UsersContext = createContext({ users: [], setUsers: () => { }, getUsers: () => { } });
 export const GroupsContext = createContext({ groups: [], setGroups: () => { }, getGroups: () => { } });
 export const IconsContext = createContext();
+export const GlobalContext = createContext({ showNav: false, setShowNav: () => { } });
 
 
 function App() {
@@ -39,6 +40,8 @@ function App() {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent
     );
+
+    console.log("app loaded")
 
     if (isMobile && !location.pathname.startsWith("/Mobile")) {
       navigate("/Mobile", { replace: true });
@@ -97,8 +100,8 @@ function App() {
             {currentURL.includes('/Users') || currentURL.includes('/Groups') ? <>
               <div className='site-navigation'>
                 <Link to='/'><img style={{ height: '1.2rem' }} src={HomeIcon} />Home</Link>
-                <Link to='/Users' style={{ backgroundColor: currentURL.includes('/Users') ? 'rgb(196, 196, 196)' : '' }}><img style={{ height: '1.2rem' }} src={UsersIcon} /><p>Users</p></Link>
-                <Link to='/Groups' style={{ backgroundColor: currentURL.includes('/Groups') ? 'rgb(196, 196, 196)' : '' }}><img style={{ height: '1.2rem' }} src={GroupsIcon} /><p>Groups</p></Link>
+                <Link to='/Users' style={{ borderRight: currentURL.includes('/Users') ? '2px solid #00A1DD' : '', color: currentURL.includes('/Users') ? '#00A1DD' : 'black' }}><img style={{ height: '1.2rem' }} src={UsersIcon} /><p>Users</p></Link>
+                <Link to='/Groups' style={{ borderRight: currentURL.includes('/Groups') ? '2px solid #00A1DD' : '', color: currentURL.includes('/Groups') ? '#00A1DD' : 'black' }}><img style={{ height: '1.2rem' }} src={GroupsIcon} /><p>Groups</p></Link>
               </div>
               <hr style={{ margin: '10px', marginTop: '0', marginBottom: '0', height: '85vh' }} /></> : <></>}
             <Routes>

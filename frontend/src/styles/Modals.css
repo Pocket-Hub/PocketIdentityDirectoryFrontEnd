@@ -15,12 +15,11 @@
     padding-right: 3px;
     align-content: center;
     margin-bottom: 0;
-    border-radius: 8px;
 }
 
 .modal-selection:hover {
     cursor: pointer;
-    background-color: #808080c9;
+    color: #00A1DD;
 }
 
 .user-info-modal {

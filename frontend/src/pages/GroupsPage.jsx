@@ -35,10 +35,16 @@ function GroupsPage({ setPage }) {
 
         try {
             let res = await fetch("/api/v1/groups?" + searchParams.toString());
+
+            if (res.status == 404) {
+                throw new Error("Server returned an error, please try again later.");
+            }
             let json = await res.json();
+
             if (!res.ok) {
                 throw new Error(json.message || "Something went wrong! " + res.status);
             };
+
             setGroups(json.resources);
 
         } catch (err) {

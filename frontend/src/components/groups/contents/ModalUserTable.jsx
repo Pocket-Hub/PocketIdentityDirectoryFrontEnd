@@ -113,6 +113,7 @@ function ModalUserTable({ groupId }) {
                             ))}
                         </tbody>
                     </table>}
+                    {group.members?.length == 0 && <div><h2 style={{ alignSelf: 'center', justifySelf: 'center', width: 'fit-content' }}>No Members Assigned</h2></div>}
             </div>
         </div>
     );

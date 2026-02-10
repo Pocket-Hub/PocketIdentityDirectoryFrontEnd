@@ -32,7 +32,13 @@ function GroupModal({ groupId, onClose }) {
       setLoading(true);
       try {
         const res = await fetch(`/api/v1/groups/${groupId}`);
+
+        if (res.status == 404) {
+          window.location.redirect("/not-found");
+        }
+
         const json = await res.json();
+
         if (!res.ok) throw new Error(json.message || "Failed to fetch group");
         setGroup(json);
         setName(json.name);

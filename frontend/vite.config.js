@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: "../approuter/dist",
-    emptyOutDir: true,
+    emptyOutDir: true
   }
 
 })
