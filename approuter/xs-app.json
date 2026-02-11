@@ -4,8 +4,7 @@
     {
       "source": "/api/(.*)",
       "target": "/api/$1",
-      "destination": "Pocket-Identity-Directory-Backend",
-      "csrfProtection": false
+      "destination": "Pocket-Identity-Directory-Backend"
     },
     {
       "source": "^/(.*\\.(html|js|css|map|png|jpg|jpeg|svg|ico|woff2?))$",

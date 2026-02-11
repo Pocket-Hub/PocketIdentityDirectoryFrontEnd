@@ -33,7 +33,8 @@ export async function createUser(requestBody) {
     const res = await fetch("/api/v1/users", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "x-csrf-token": localStorage.getItem('csrf-token')
         },
         body: JSON.stringify(requestBody)
     });
@@ -54,7 +55,9 @@ export async function saveUser(requestBody, id) {
     const res = await fetch(`/api/v1/users/${id}`, {
         method: 'PUT',
         headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            "x-csrf-token": localStorage.getItem('csrf-token')
+
         },
         body: JSON.stringify(requestBody)
     });
@@ -72,6 +75,9 @@ export async function saveUser(requestBody, id) {
 export async function deleteUser(id) {
     const res = await fetch(`/api/v1/users/${id}`, {
         method: "DELETE",
+        headers: {
+            "x-csrf-token": localStorage.getItem('csrf-token')
+        }
     });
 
     return res.status;

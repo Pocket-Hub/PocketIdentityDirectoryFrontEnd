@@ -62,6 +62,9 @@ function GroupModal({ groupId, onClose }) {
     try {
       const res = await fetch(`/api/v1/groups/${groupId}`, {
         method: "DELETE",
+        headers: {
+          'x-csrf-token': localStorage.getItem('csrf-token')
+        }
       });
       setGroups((prev) => prev.filter((g) => g.id !== groupId));
       if (res.status != 204) {
@@ -93,7 +96,8 @@ function GroupModal({ groupId, onClose }) {
       const res = await fetch(`/api/v1/groups/${groupId}`, {
         method: 'PUT',
         headers: {
-          'content-type': 'application/json'
+          'content-type': 'application/json',
+          'x-csrf-token': localStorage.getItem('csrf-token')
         },
         body: JSON.stringify(requestBody
         )

@@ -29,7 +29,8 @@ function AssignUsers({ update, groupId, close }) {
             const res = await fetch(`/api/v1/groups/${groupId}`, {
                 method: 'PATCH',
                 headers: {
-                    'content-type': 'application/json'
+                    'content-type': 'application/json',
+                    'x-csrf-token': localStorage.getItem('csrf-token')
                 },
                 body: JSON.stringify({
                     action: "add",

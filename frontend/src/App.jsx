@@ -56,8 +56,14 @@ function App() {
   async function getEnums() {
 
     try {
-      const res = await fetch("/api/v1/enums");
+      const res = await fetch("/api/v1/enums", {
+        method: 'GET',
+        headers: {
+          'x-csrf-token': 'fetch'
+        }
+      });
       const responseBody = await res.json();
+      localStorage.setItem('csrf-token', res.headers.get('x-csrf-token'))
       setCountries(responseBody.countries);
       setUserStatuses(responseBody.userStatuses);
       setUserTypes(responseBody.userTypes);
@@ -89,7 +95,7 @@ function App() {
   };
 
   async function sync() {
-    const res = await fetch("/api/v1/sync", { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+    const res = await fetch("/api/v1/sync", { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-csrf-token': localStorage.getItem('csrf-token') } });
     if (res.status !== 204) throw new Error("sync failed")
   };
 

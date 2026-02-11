@@ -28,7 +28,8 @@ function AddGroup({ close }) {
             const res = await fetch("/api/v1/groups", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    'x-csrf-token': localStorage.getItem('csrf-token')
                 },
                 body: JSON.stringify(requestBody)
             })

@@ -19,7 +19,8 @@ function ModalUserTable({ groupId }) {
             const res = await fetch(`/api/v1/groups/${groupId}`, {
                 method: 'PATCH',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'x-csrf-token': localStorage.getItem('csrf-token')
                 },
                 body: JSON.stringify({
                     action: "remove",
@@ -113,7 +114,7 @@ function ModalUserTable({ groupId }) {
                             ))}
                         </tbody>
                     </table>}
-                    {group.members?.length == 0 && <div><h2 style={{ alignSelf: 'center', justifySelf: 'center', width: 'fit-content' }}>No Members Assigned</h2></div>}
+                {group.members?.length == 0 && <div><h2 style={{ alignSelf: 'center', justifySelf: 'center', width: 'fit-content' }}>No Members Assigned</h2></div>}
             </div>
         </div>
     );
