@@ -44,10 +44,8 @@ function UserModalContent({ user }) {
                                 `${user.validTo.substring(5, 7)}/${user.validTo.substring(8, 10)}/${user.validTo.substring(0, 4)}` : ''}
                         </p>
 
-                        <label><strong>Last Updated:</strong></label>
-                        <p>{user.lastUpdate &&
-                            `${user.lastUpdate.substring(5, 7)}/${user.lastUpdate.substring(8, 10)}/${user.lastUpdate.substring(0, 4)} - ${user.lastUpdate?.substring(11, 19)}`}
-                        </p>
+                        <label><strong>Version:</strong></label>
+                        <p>{user.version}</p>
                     </div>
                 </div>
             </div>

@@ -33,10 +33,6 @@ function GroupModal({ groupId, onClose }) {
       try {
         const res = await fetch(`/api/v1/groups/${groupId}`);
 
-        if (res.status == 404) {
-          window.location.redirect("/not-found");
-        }
-
         const json = await res.json();
 
         if (!res.ok) throw new Error(json.message || "Failed to fetch group");
@@ -115,10 +111,14 @@ function GroupModal({ groupId, onClose }) {
 
     setLoadingEditForm(false);
   }
+  function closeOnError(){
+    onClose();
+    setError(null);
+  }
 
   if (loading) return <Loading pos={'fixed'} />;
 
-  if (error) return <ErrorModal close={() => setError(null)} message={error.message} />;
+  if (error) return <ErrorModal close={closeOnError} message={error.message} />;
 
   if (!group) return null;
 

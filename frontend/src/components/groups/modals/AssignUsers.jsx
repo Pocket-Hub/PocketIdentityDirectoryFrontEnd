@@ -38,9 +38,6 @@ function AssignUsers({ update, groupId, close }) {
                 })
             });
             let resGroup = await res.json();
-            if (res.status == 404) {
-                window.location.redirect("/not-found");
-            }
             if (!res.ok) throw new Error(resGroup.message || "Failed to fetch");
             update(resGroup)
             setSelectedItems([]);

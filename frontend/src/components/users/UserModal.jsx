@@ -108,10 +108,14 @@ function UserModal({ userId, onClose }) {
 
     setLoadingEditForm(false);
   }
+  function closeOnError(){
+    onClose();
+    setError(null);
+  }
 
   if (loading) return <Loading pos={'fixed'} />;
 
-  if (error) return <ErrorModal close={() => setError(null)} message={error.message} />
+  if (error) return <ErrorModal close={closeOnError} message={error.message} />
 
   function showGroups() {
     setGroupsVisible(true);

@@ -138,10 +138,10 @@ function EditUserContent({ user, updateUser, loading, setLoading }) {
                                     onChange={(e) => setValidTo(e.target.value)}
                                 />
                             </label>
-                            <label htmlFor="lastUpdated">
-                                <strong>Last Updated:</strong>
+                            <label htmlFor="version">
+                                <strong>Version:</strong>
                                 <input
-                                    value={`${user.lastUpdate.substring(5, 7)}/${user.lastUpdate.substring(8, 10)}/${user.lastUpdate.substring(0, 4)}-${user.lastUpdate?.substring(11, 19)}`}
+                                    value={user.version}
 
                                     disabled
                                 />

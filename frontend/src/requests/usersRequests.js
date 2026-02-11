@@ -4,9 +4,6 @@
 export async function requestAllUsers(searchParams) {
 
     let res = await fetch("/api/v1/users?" + searchParams.toString());
-    if (res.status == 404) {
-        throw new Error("Server returned an error, please try again later.")
-    }
     let json = await res.json();
     if (!res.ok) {
         throw new Error(json.message || "Something went wrong! " + res.status);
@@ -18,9 +15,6 @@ export async function requestAllUsers(searchParams) {
 
 export async function getSpecificUser(id) {
     const res = await fetch(`/api/v1/users/${id}`);
-    if (res.status == 404) {
-        window.location.replace("/not-found");
-    }
 
     const json = await res.json();
 
@@ -38,9 +32,6 @@ export async function createUser(requestBody) {
         },
         body: JSON.stringify(requestBody)
     });
-    if (res.status == 404) {
-        window.location.replace("/not-found")
-    }
 
     const user = await res.json();
 
@@ -61,9 +52,6 @@ export async function saveUser(requestBody, id) {
         },
         body: JSON.stringify(requestBody)
     });
-    if (res.status == 404) {
-        window.location.replace("/not-found")
-    }
     const resUser = await res.json();
 
     if (!res.ok) {
