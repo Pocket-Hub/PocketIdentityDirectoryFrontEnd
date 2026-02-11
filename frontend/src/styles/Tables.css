@@ -8,7 +8,7 @@ tr {
 }
 
 tbody>.hover-tr:hover {
-    background-color: rgb(123, 123, 123);
+    background-color: #efefef;
     cursor: pointer;
 }
 

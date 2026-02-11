@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { IconsContext, UsersContext } from "../App";
+import { EnumsContext, IconsContext, UsersContext } from "../App";
 import Loading from "../components/Loading";
 import ErrorModal from "../components/modals/ErrorModal";
 import UserModal from "../components/users/UserModal";
@@ -8,9 +8,9 @@ import { requestAllUsers, saveUser } from "../requests/usersRequests";
 
 export const UserModalContext = createContext({ user: {}, });
 
-
 function UsersPage({ setPage }) {
     const { RefreshIcon } = useContext(IconsContext);
+    const { userStatuses, userTypes } = useContext(EnumsContext);
     const { users, setUsers } = useContext(UsersContext);
     const [loading, setLoading] = useState(true);
     const [addUser, setAddUser] = useState(false);
@@ -71,7 +71,7 @@ function UsersPage({ setPage }) {
         setUsers(prevUsers => prevUsers.filter(u => u.id !== id));
     };
 
-    let content = loading ? <Loading /> : <div className="home-table">
+    let content = <div className="home-table">
         {error && <ErrorModal close={() => setError(null)} message={error.message} />}
         <div style={{ display: 'flex', padding: '1%', height: '6vh', flexDirection: 'column' }}>
             <form onSubmit={handleSubmit} className="search-div">
@@ -84,19 +84,11 @@ function UsersPage({ setPage }) {
                     style={{ color: userType == "" ? '#999' : '' }}
                 >
                     <option value="">User Type...</option>
-                    <option value="public">Public</option>
-                    <option value="employee">Employee</option>
-                    <option value="customer">Customer</option>
-                    <option value="partner">Partner</option>
-                    <option value="external">External</option>
-                    <option value="onboardee">Onboardee</option>
-                    <option value="alumni">Alumni</option>
+                    {userTypes?.map(userType => <option key={userType} value={userType}>{userType.charAt(0).toUpperCase() + userType.slice(1)}</option>)}
                 </select>
                 <select value={status} onChange={(e) => setStatus(e.target.value)} style={{ color: status == "" ? '#999' : '' }}>
                     <option value=''>Status...</option>
-                    <option value='active'>Active</option>
-                    <option value='inactive'>Inactive</option>
-                    <option value='new'>New</option>
+                    {userStatuses?.map(userStatus => <option key={userStatus} value={userStatus}>{userStatus.charAt(0).toUpperCase() + userStatus.slice(1)}</option>)}
                 </select>
                 <button type="button" onClick={() => setAddUser(true)} style={{ width: '3rem', marginLeft: 'auto' }}>Add</button>
                 <button type="submit" style={{ marginLeft: '0.5rem', height: '1.5rem', width: '1.5rem', background: 'transparent', color: 'black' }}><img style={{ height: '1.5rem' }} src={RefreshIcon}></img></button>

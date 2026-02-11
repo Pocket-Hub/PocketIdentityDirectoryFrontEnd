@@ -2,11 +2,12 @@ import { useContext } from "react";
 import { EditUserContext } from "../UserModal";
 import { countryOptions } from "../../../data/countryOptions";
 import Loading from "../../Loading";
+import { EnumsContext } from "../../../App";
 
 
 function EditUserContent({ user, updateUser, loading, setLoading }) {
     const { email, setEmail, name, setName, loginName, setLoginName, type, setType, companyInfo, setCompanyInfo, validFrom, setValidFrom, validTo, setValidTo, status, setStatus } = useContext(EditUserContext);
-
+    const { countries, userStatuses, userTypes } = useContext(EnumsContext);
 
     async function submitForm(e) {
         setLoading(true);
@@ -70,9 +71,7 @@ function EditUserContent({ user, updateUser, loading, setLoading }) {
                                     value={status}
                                     onChange={(e) => setStatus(e.target.value)}
                                 >
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                    <option value="new">New</option>
+                                    {userStatuses.map(userStatus => <option value={userStatus} key={userStatus}>{userStatus.charAt(0).toUpperCase() + userStatus.slice(1)}</option>)}
                                 </select>
                             </label>
                             <label htmlFor="userType">
@@ -83,13 +82,7 @@ function EditUserContent({ user, updateUser, loading, setLoading }) {
                                     value={type}
                                     onChange={(e) => setType(e.target.value)}
                                 >
-                                    <option value="public">Public</option>
-                                    <option value="employee">Employee</option>
-                                    <option value="customer">Customer</option>
-                                    <option value="partner">Partner</option>
-                                    <option value="external">External</option>
-                                    <option value="onboardee">Onboardee</option>
-                                    <option value="alumni">Alumni</option>
+                                    {userTypes.map(userType => <option value={userType} key={userType}>{userType.charAt(0).toUpperCase() + userType.slice(1)}</option>)}
                                 </select>
                             </label>
                         </div>
@@ -111,10 +104,9 @@ function EditUserContent({ user, updateUser, loading, setLoading }) {
                                     value={companyInfo.country}
                                     onChange={(e) => setCompanyInfo({ ...companyInfo, country: e.target.value })}
                                 >
-                                    <option value=""></option>
-                                    {countryOptions.map((country) => (
-                                        <option key={country.value} value={country.value}>
-                                            {country.label}
+                                    {countries.map((country) => (
+                                        <option key={country} value={country}>
+                                            {country}
                                         </option>
                                     ))}
                                 </select>

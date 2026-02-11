@@ -70,9 +70,8 @@ function ModalGroupTable({ user, setUser }) {
                 <button className="modal-button" style={{ marginLeft: 'auto' }} onClick={() => setAssign(user)}>Assign</button>
                 <button className="modal-button" disabled={selectedItems.length == 0} style={{ marginLeft: '10px' }} onClick={unassignGroups}>Unassign</button>
             </div>
-            {loading ? <div style={{ height: '55vh' }}><Loading pos={'relative'} /></div> :
-
-                <div style={{ boxShadow: '1px 3px 5px gray', margin: '3px', borderRadius: '8px', overflowY: 'auto', height: '55vh' }}>
+            <div style={{ boxShadow: '1px 3px 5px gray', margin: '3px', borderRadius: '8px', overflowY: 'auto', height: '55vh' }}>
+                {loading ? <Loading pos={'relative'} /> : <>
                     <table >
                         <thead>
                             <tr>
@@ -107,8 +106,8 @@ function ModalGroupTable({ user, setUser }) {
                         </tbody>
                     </table>
                     {user.groups.length == 0 && <h2 style={{ alignSelf: 'center', justifySelf: 'center', width: 'fit-content' }}>No Assigned Groups</h2>}
-
-                </div>}
+                </>}
+            </div>
         </div>
     );
 };

@@ -94,15 +94,10 @@ function UserModal({ userId, onClose }) {
   async function updateUser() {
     setLoadingEditForm(true);
 
-    if (!name.firstName) {
-      setName({ lastName: name.lastName })
-    }
-
     const requestBody = { email, name, loginName, type, companyInfo, status, validFrom: !validFrom || validFrom.trim() === "" ? null : new Date(validFrom).toISOString(), validTo: !validTo || validTo.trim() === "" ? null : new Date(validTo).toISOString() };
 
     try {
       const resUser = await saveUser(requestBody, userId);
-      console.log(requestBody);
       setUsers(users.map(u => u.id == resUser.id ? resUser : u))
       setEditUser(null);
     } catch (err) {

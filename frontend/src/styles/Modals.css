@@ -136,7 +136,7 @@ table tr:nth-child(even) {
 }
 
 table tbody>tr:nth-child(odd) {
-    background-color: #d8d7d7;
+    background-color: #f9f9f9;
 }
 
 .buttons-div {

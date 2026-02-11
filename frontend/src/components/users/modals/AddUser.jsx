@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { IconsContext, UsersContext } from "../../../App";
+import { EnumsContext, IconsContext, UsersContext } from "../../../App";
 import Loading from "../../Loading";
 import { countryOptions } from "../../../data/countryOptions";
 import toast from "react-hot-toast";
@@ -20,6 +20,7 @@ function AddUser({ close }) {
     const [validTo, setValidTo] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const { countries, userStatuses, userTypes } = useContext(EnumsContext);
 
 
     async function submitForm(e) {
@@ -110,13 +111,7 @@ function AddUser({ close }) {
                                         value={type}
                                         onChange={(e) => setType(e.target.value)}
                                     >
-                                        <option value="public">Public</option>
-                                        <option value="employee">Employee</option>
-                                        <option value="customer">Customer</option>
-                                        <option value="partner">Partner</option>
-                                        <option value="external">External</option>
-                                        <option value="onboardee">Onboardee</option>
-                                        <option value="alumni">Alumni</option>
+                                        {userTypes.map(type => <option value={type} key={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>)}
                                     </select>
                                 </label>
                             </div>
@@ -138,10 +133,9 @@ function AddUser({ close }) {
                                         value={companyInfo.country}
                                         onChange={(e) => setCompanyInfo({ ...companyInfo, country: e.target.value })}
                                     >
-                                        <option value=""></option>
-                                        {countryOptions.map((country) => (
-                                            <option key={country.value} value={country.value}>
-                                                {country.label}
+                                        {countries.map((country) => (
+                                            <option key={country} value={country}>
+                                                {country}
                                             </option>
                                         ))}
                                     </select>
