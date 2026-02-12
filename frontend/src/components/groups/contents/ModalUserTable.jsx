@@ -32,22 +32,22 @@ function ModalUserTable({ groupId }) {
 
             if (!res.ok) {
                 throw new Error(resGroup.message || "Failed to fetch");
-            }
+            };
             updateGroup(resGroup);
             setSelectedItems([]);
         } catch (err) {
             setError(err);
         } finally {
             setLoading(false);
-        }
-    }
+        };
+    };
 
     function updateGroup(grp) {
         setGroups(prev => prev.map(prevGroup =>
             prevGroup.id === grp.id ? grp : prevGroup
         ));
         setGroup(grp);
-    }
+    };
 
     function handleCheckBoxChange(e) {
         const value = e.target.value;
@@ -55,7 +55,7 @@ function ModalUserTable({ groupId }) {
             setSelectedItems([...selectedItems, value]);
         } else {
             setSelectedItems(selectedItems.filter(item => item !== value));
-        }
+        };
     };
 
     function handleCheckAllBoxes(e) {
@@ -63,7 +63,7 @@ function ModalUserTable({ groupId }) {
             setSelectedItems(group.members?.map(user => user.id.toString()));
         } else {
             setSelectedItems([]);
-        }
+        };
     };
 
     const allSelected = group.members?.length > 0 && selectedItems.length === group.members?.length;

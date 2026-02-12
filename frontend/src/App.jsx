@@ -37,6 +37,8 @@ function App() {
   const [countries, setCountries] = useState();
   const [userTypes, setUserTypes] = useState();
   const [userStatuses, setUserStatuses] = useState();
+  const [syncing, setSyncing] = useState(false);
+  const [syncError, setSyncError] = useState("");
 
 
   useEffect(() => {
@@ -95,12 +97,21 @@ function App() {
   };
 
   async function sync() {
+    if(syncing){
+      setSyncError("Sync already in progress.")
+      throw new Error();
+    }
+    setSyncing(true);
     const res = await fetch("/api/v1/sync", { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-csrf-token': localStorage.getItem('csrf-token') } });
-    if (res.status !== 204) throw new Error("sync failed")
+    if (res.status !== 204){
+      setSyncError("Sync failed.")
+      throw new Error("sync failed");
+    }
+    setSyncing(false);
   };
 
   function toastSync() {
-    toast.promise(sync(), { loading: 'Syncing...', success: 'Synced successfully!', error: 'Failed syncing' });
+    toast.promise(sync(), { loading: 'Syncing...', success: 'Synced successfully!', error: syncError });
   }
 
   return (
