@@ -97,17 +97,19 @@ function App() {
   };
 
   async function sync() {
-    if(syncing){
-      setSyncError("Sync already in progress.")
-      throw new Error();
-    }
-    setSyncing(true);
+    // if(syncing){
+    //   setSyncError("Sync already in progress.")
+    //   throw new Error();
+    // }
+    // setSyncing(true);
     const res = await fetch("/api/v1/sync", { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-csrf-token': localStorage.getItem('csrf-token') } });
-    if (res.status !== 204){
-      setSyncError("Sync failed.")
+    if (res.status !== 204) {
+      const body = await res.json();
+      setSyncError(body.message || "Sync failed.")
+      // setSyncing(false);
       throw new Error("sync failed");
     }
-    setSyncing(false);
+    // setSyncing(false);
   };
 
   function toastSync() {
